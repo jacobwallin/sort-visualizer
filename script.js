@@ -1,13 +1,18 @@
-const ARR_LENGTH = 50;
 const BAR_SPACING = 3;
 let sortArray = [];
+let sorting = false;
 let startButton = document.getElementById("bubble-sort");
-startButton.addEventListener("click", () => loop());
+startButton.addEventListener("click", () => {
+  sorting = true;
+});
 
-function createRandomArray() {
-  for (let i = 0; i < ARR_LENGTH; i++) {
+function createRandomArray(length) {
+  sortArray = [];
+  for (let i = 0; i < length; i++) {
     sortArray.push(Math.random());
   }
+  count1 = sortArray.length - 1;
+  count2 = 0;
 }
 
 function bubbleSort() {
@@ -40,6 +45,8 @@ function bubbleSortStep(i, j) {
       return { i: i - 1, j: 0 };
     }
   }
+  sorting = false;
+  // noLoop();
   return { i, j };
 }
 
@@ -49,19 +56,31 @@ let count1, count2;
 function setup() {
   createCanvas(1000, 500);
   frameRate(200);
-  createRandomArray();
-  count1 = sortArray.length - 1;
-  count2 = 0;
-  noLoop();
+  createRandomArray(50);
+  // noLoop();
+
+  slider = createSlider(5, 100, 50, 1);
+  slider.position(10, 10);
+  slider.style("width", "200px");
+  // slider.touchMoved(() => {
+  //   createRandomArray(slider.value());
+  //   draw();
+  // });
 }
 
 function draw() {
   console.log("draw");
-  background(200, 200, 200);
+  background(210, 210, 210);
+  if (sorting) {
+    const newIndeces = bubbleSortStep(count1, count2);
+    count1 = newIndeces.i;
+    count2 = newIndeces.j;
+  } else {
+    if (slider.value() !== sortArray.length) {
+      createRandomArray(slider.value());
+    }
+  }
   drawGraph();
-  const newIndeces = bubbleSortStep(count1, count2);
-  count1 = newIndeces.i;
-  count2 = newIndeces.j;
 }
 
 function drawGraph() {
@@ -70,7 +89,7 @@ function drawGraph() {
 
   for (let i = 0; i < sortArray.length; i++) {
     stroke(30);
-    fill(102, 0, 102);
+    fill(51, 102, 255);
     rect(
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
       height,
