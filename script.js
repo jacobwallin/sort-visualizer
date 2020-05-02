@@ -1,15 +1,16 @@
-const BAR_SPACING = 3;
+const BAR_SPACING = 1;
 let sortArray = [];
 let sorting = false;
 let startButton = document.getElementById("bubble-sort");
 startButton.addEventListener("click", () => {
-  sorting = true;
+  bubbleSort();
+  console.log(state);
 });
 let mergeSortButton = document.getElementById("merge-sort");
 mergeSortButton.addEventListener("click", () => {
+  noLoop();
   console.log("before Merge", sortArray);
   mergeSort(0, sortArray.length - 1);
-  draw();
   console.log("after Merge", sortArray);
 });
 
@@ -25,6 +26,7 @@ function createRandomArray(length) {
 function bubbleSort() {
   for (let i = sortArray.length - 1; i >= 0; i--) {
     for (let j = 0; j < i; j++) {
+      saveState();
       if (sortArray[j] > sortArray[j + 1]) {
         // swap numbers
         let temp = sortArray[j];
@@ -33,7 +35,11 @@ function bubbleSort() {
       }
     }
   }
-  draw();
+}
+
+let state = [];
+function saveState() {
+  state.push(sortArray.map((value) => value));
 }
 
 function bubbleSortStep(i, j) {
@@ -102,35 +108,34 @@ function merge(low, middle, high) {
 }
 
 let count1, count2;
+
 function setup() {
+  console.log("SETUP");
   createCanvas(1000, 500);
   frameRate(200);
-  createRandomArray(50);
-  noLoop();
+  createRandomArray(500);
+  bubbleSort();
+  console.log(state);
 
-  slider = createSlider(5, 100, 7, 1);
-  slider.position(10, 10);
-  slider.style("width", "200px");
+  // noLoop();
+
+  slider = createSlider(5, state.length - 1, 0, 1);
+  slider.position(5, 600);
+  slider.style("width", "1000px");
   // slider.touchMoved(() => {
   //   createRandomArray(slider.value());
   //   draw();
   // });
 }
 
+let count = 0;
 function draw() {
-  console.log("draw");
+  console.log("DRAW");
   background(210, 210, 210);
-  if (sorting) {
-    const newIndeces = bubbleSortStep(count1, count2);
-    count1 = newIndeces.i;
-    count2 = newIndeces.j;
-  } else {
-    if (slider.value() !== sortArray.length) {
-      createRandomArray(slider.value());
-    }
-  }
+  count = slider.value();
+  sortArray = state[count];
   drawGraph();
-  noLoop();
+  // noLoop();
 }
 
 function drawGraph() {
@@ -138,7 +143,8 @@ function drawGraph() {
     (width - (BAR_SPACING * sortArray.length + BAR_SPACING)) / sortArray.length;
 
   for (let i = 0; i < sortArray.length; i++) {
-    stroke(30);
+    // stroke(30);
+    noStroke();
     fill(51, 102, 255);
     rect(
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
