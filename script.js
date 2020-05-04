@@ -60,7 +60,42 @@ function merge(low, middle, high) {
   }
 }
 
-function quickSort() {}
+function quickSort(low, high) {
+  let sortedElement = partition(low, high);
+  console.log(sortedElement);
+  if (low < sortedElement - 1) {
+    quickSort(low, sortedElement - 1);
+  }
+  if (high > sortedElement) {
+    quickSort(sortedElement, high);
+  }
+}
+
+function partition(low, high) {
+  // pivot index
+  let pivot = sortArray[Math.floor((low + high) / 2)];
+  let i = low;
+  let j = high;
+
+  while (i <= j) {
+    while (sortArray[i] < pivot) {
+      i++;
+    }
+    while (sortArray[j] > pivot) {
+      j--;
+    }
+    if (i <= j) {
+      // swap numers
+      var temp = sortArray[i];
+      sortArray[i] = sortArray[j];
+      sortArray[j] = temp;
+      snapshot();
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
 
 let state = [];
 function snapshot() {
@@ -124,6 +159,11 @@ function startAnimation() {
       break;
     case "merge-sort":
       mergeSort(0, sortArray.length - 1);
+      sorting = true;
+      break;
+    case "quick-sort":
+      quickSort(0, sortArray.length - 1);
+      snapshot();
       sorting = true;
       break;
     default:
@@ -206,6 +246,12 @@ let mergeSortButton = document.getElementById("merge-sort");
 sortButtons.push(mergeSortButton);
 mergeSortButton.addEventListener("click", () => {
   selectSortMethod("merge-sort");
+});
+
+let quickSortButton = document.getElementById("quick-sort");
+sortButtons.push(quickSortButton);
+quickSortButton.addEventListener("click", () => {
+  selectSortMethod("quick-sort");
 });
 
 function selectSortMethod(method) {
