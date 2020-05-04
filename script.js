@@ -97,6 +97,21 @@ function partition(low, high) {
   return i;
 }
 
+function insertionSort() {
+  for (let i = 1; i < sortArray.length; i++) {
+    let swapIndex = i;
+    for (let j = i - 1; j >= 0; j--) {
+      if (sortArray[j] > sortArray[swapIndex]) {
+        const temp = sortArray[swapIndex];
+        sortArray[swapIndex] = sortArray[j];
+        sortArray[j] = temp;
+        swapIndex--;
+        snapshot();
+      }
+    }
+  }
+}
+
 let state = [];
 function snapshot() {
   state.push(sortArray.map((value) => value));
@@ -163,7 +178,10 @@ function startAnimation() {
       break;
     case "quick-sort":
       quickSort(0, sortArray.length - 1);
-      snapshot();
+      sorting = true;
+      break;
+    case "insertion-sort":
+      insertionSort();
       sorting = true;
       break;
     default:
@@ -240,6 +258,12 @@ let bubbleSortButton = document.getElementById("bubble-sort");
 sortButtons.push(bubbleSortButton);
 bubbleSortButton.addEventListener("click", () => {
   selectSortMethod("bubble-sort");
+});
+
+let insertionSortButton = document.getElementById("insertion-sort");
+sortButtons.push(insertionSortButton);
+insertionSortButton.addEventListener("click", () => {
+  selectSortMethod("insertion-sort");
 });
 
 let mergeSortButton = document.getElementById("merge-sort");
