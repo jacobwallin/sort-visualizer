@@ -1,130 +1,3 @@
-function bubbleSort() {
-  snapshot();
-  for (let i = sortArray.length - 1; i >= 0; i--) {
-    for (let j = 0; j < i; j++) {
-      if (sortArray[j] > sortArray[j + 1]) {
-        // swap numbers
-        let temp = sortArray[j];
-        sortArray[j] = sortArray[j + 1];
-        sortArray[j + 1] = temp;
-      }
-      snapshot();
-    }
-  }
-}
-
-function mergeSort(low, high) {
-  if (low < high) {
-    const middle = Math.floor((low + high) / 2);
-    mergeSort(low, middle);
-    mergeSort(middle + 1, high);
-    merge(low, middle, high);
-  }
-}
-
-function merge(low, middle, high) {
-  let copy = [];
-  for (i = low; i <= high; i++) {
-    copy[i] = sortArray[i];
-  }
-
-  let mergeCount = low;
-  let mid = middle;
-
-  while (low <= middle && mid < high) {
-    if (copy[low] <= copy[mid + 1]) {
-      sortArray[mergeCount] = copy[low];
-      low++;
-    } else {
-      sortArray[mergeCount] = copy[mid + 1];
-      mid++;
-    }
-    snapshot();
-    mergeCount++;
-  }
-
-  if (low > middle) {
-    while (mid < high) {
-      sortArray[mergeCount] = copy[mid + 1];
-      snapshot();
-      mid++;
-      mergeCount++;
-    }
-  } else {
-    while (low <= middle) {
-      sortArray[mergeCount] = copy[low];
-      snapshot();
-      low++;
-      mergeCount++;
-    }
-  }
-}
-
-function quickSort(low, high) {
-  let sortedElement = partition(low, high);
-  console.log(sortedElement);
-  if (low < sortedElement - 1) {
-    quickSort(low, sortedElement - 1);
-  }
-  if (high > sortedElement) {
-    quickSort(sortedElement, high);
-  }
-}
-
-function partition(low, high) {
-  // pivot index
-  let pivot = sortArray[Math.floor((low + high) / 2)];
-  let i = low;
-  let j = high;
-
-  while (i <= j) {
-    while (sortArray[i] < pivot) {
-      i++;
-    }
-    while (sortArray[j] > pivot) {
-      j--;
-    }
-    if (i <= j) {
-      // swap numers
-      var temp = sortArray[i];
-      sortArray[i] = sortArray[j];
-      sortArray[j] = temp;
-      snapshot();
-      i++;
-      j--;
-    }
-  }
-  return i;
-}
-
-function insertionSort() {
-  for (let i = 1; i < sortArray.length; i++) {
-    let swapIndex = i;
-    for (let j = i - 1; j >= 0; j--) {
-      if (sortArray[j] > sortArray[swapIndex]) {
-        const temp = sortArray[swapIndex];
-        sortArray[swapIndex] = sortArray[j];
-        sortArray[j] = temp;
-        swapIndex--;
-        snapshot();
-      }
-    }
-  }
-}
-
-let state = [];
-function snapshot() {
-  state.push(sortArray.map((value) => value));
-}
-
-let sortArray = [];
-function createRandomArray(length) {
-  sortArray = [];
-  for (let i = 0; i < length; i++) {
-    sortArray.push(Math.random());
-  }
-}
-
 // p5 setup function
 function setup() {
   createCanvas(1000, 500);
@@ -143,7 +16,7 @@ function draw() {
 
 function stepGraph() {
   if (state.length > 0 && slider.value < state.length) {
-    sortArray = state[slider.value];
+    sortedElements = state[slider.value];
     slider.value++;
   }
 }
@@ -152,16 +25,42 @@ const BAR_SPACING = 1;
 function drawGraph() {
   background(210, 210, 210);
   let barWidth =
-    (width - (BAR_SPACING * sortArray.length + BAR_SPACING)) / sortArray.length;
-  for (let i = 0; i < sortArray.length; i++) {
+    (width - (BAR_SPACING * sortedElements.length + BAR_SPACING)) /
+    sortedElements.length;
+  for (let i = 0; i < sortedElements.length; i++) {
     noStroke();
-    fill(51, 102, 255);
+    switch (sortedElements[i].status) {
+      case "UNSORTED":
+        fill(130, 130, 130);
+        break;
+      case "SORTED":
+        fill(
+          `rgba(51, 102, 255, ${map(sortedElements[i].num, 0, 1, 0.35, 1)})`
+        );
+        break;
+      case "MOVED":
+        fill(255, 204, 0);
+        break;
+      default:
+        fill(0, 0, 0);
+        break;
+    }
     rect(
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
       height,
       barWidth,
-      -height * sortArray[i]
+      -height * sortedElements[i].num
     );
+  }
+}
+
+let sortArray = [];
+let sortedElements = [];
+function createRandomArray(length) {
+  sortedElements = [];
+  // creates array of objects, each with a random floating-point number and color
+  for (let i = 0; i < length; i++) {
+    sortedElements.push({ num: Math.random(), status: "UNSORTED" });
   }
 }
 
@@ -300,23 +199,130 @@ function selectSortMethod(method) {
   }
 }
 
-// function bubbleSortStep(i, j) {
-//   if (i >= 0) {
-//     if (j < i) {
-//       if (sortArray[j] > sortArray[j + 1]) {
-//         // swap numbers
-//         let temp = sortArray[j];
-//         sortArray[j] = sortArray[j + 1];
-//         sortArray[j + 1] = temp;
-//         return { i, j: j + 1 };
-//       } else {
-//         return { i, j: j + 1 };
-//       }
-//     } else {
-//       return { i: i - 1, j: 0 };
-//     }
-//   }
-//   sorting = false;
-//   // noLoop();
-//   return { i, j };
-// }
+// SORTING FUNCTIONS
+
+let state = [];
+function snapshot() {
+  state.push(
+    sortedElements.map((value) => ({ num: value.num, status: value.status }))
+  );
+}
+
+function bubbleSort() {
+  for (let i = sortedElements.length - 1; i >= 0; i--) {
+    sortedElements[0].status = "MOVED";
+
+    for (let j = 0; j < i; j++) {
+      if (sortedElements[j].num > sortedElements[j + 1].num) {
+        // swap numbers
+        let temp = sortedElements[j];
+        sortedElements[j] = sortedElements[j + 1];
+        sortedElements[j + 1] = temp;
+      }
+      snapshot();
+      sortedElements[j].status = "UNSORTED";
+      sortedElements[j + 1].status = "MOVED";
+    }
+    sortedElements[i].status = "SORTED";
+    snapshot();
+  }
+}
+
+function mergeSort(low, high) {
+  if (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    mergeSort(low, middle);
+    mergeSort(middle + 1, high);
+    merge(low, middle, high);
+  }
+}
+
+function merge(low, middle, high) {
+  let copy = [];
+  for (i = low; i <= high; i++) {
+    copy[i] = sortArray[i];
+  }
+
+  let mergeCount = low;
+  let mid = middle;
+
+  while (low <= middle && mid < high) {
+    if (copy[low] <= copy[mid + 1]) {
+      sortArray[mergeCount] = copy[low];
+      low++;
+    } else {
+      sortArray[mergeCount] = copy[mid + 1];
+      mid++;
+    }
+    snapshot();
+    mergeCount++;
+  }
+
+  if (low > middle) {
+    while (mid < high) {
+      sortArray[mergeCount] = copy[mid + 1];
+      snapshot();
+      mid++;
+      mergeCount++;
+    }
+  } else {
+    while (low <= middle) {
+      sortArray[mergeCount] = copy[low];
+      snapshot();
+      low++;
+      mergeCount++;
+    }
+  }
+}
+
+function quickSort(low, high) {
+  let sortedElement = partition(low, high);
+  console.log(sortedElement);
+  if (low < sortedElement - 1) {
+    quickSort(low, sortedElement - 1);
+  }
+  if (high > sortedElement) {
+    quickSort(sortedElement, high);
+  }
+}
+
+function partition(low, high) {
+  // pivot index
+  let pivot = sortArray[Math.floor((low + high) / 2)];
+  let i = low;
+  let j = high;
+
+  while (i <= j) {
+    while (sortArray[i] < pivot) {
+      i++;
+    }
+    while (sortArray[j] > pivot) {
+      j--;
+    }
+    if (i <= j) {
+      // swap numers
+      var temp = sortArray[i];
+      sortArray[i] = sortArray[j];
+      sortArray[j] = temp;
+      snapshot();
+      i++;
+      j--;
+    }
+  }
+  return i;
+}
+
+function insertionSort() {
+  for (let i = 1; i < sortArray.length; i++) {
+    let swapIndex = i;
+    for (let j = i - 1; j >= 0; j--) {
+      if (sortArray[j] > sortArray[swapIndex]) {
+        const temp = sortArray[swapIndex];
+        sortArray[swapIndex] = sortArray[j];
+        sortArray[j] = temp;
+        swapIndex--;
+        snapshot();
+      }
+    }
+  }
+}
