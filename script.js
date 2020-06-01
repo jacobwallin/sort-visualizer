@@ -95,7 +95,7 @@ let slider = document.getElementById("progress-bar");
 slider.addEventListener("click", () => {});
 slider.oninput = function () {
   noLoop();
-  sortArray = state[slider.value];
+  sortedElements = state[slider.value];
   drawGraph();
   if (state.length > 0) {
     pauseButton.classList.add("selected");
