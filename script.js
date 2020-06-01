@@ -31,7 +31,9 @@ function drawGraph() {
     noStroke();
     switch (sortedElements[i].status) {
       case "UNSORTED":
-        fill(130, 130, 130);
+        fill(
+          `rgba(100, 100, 100, ${map(sortedElements[i].num, 0, 1, 0.25, 1)})`
+        );
         break;
       case "SORTED":
         fill(
@@ -209,6 +211,7 @@ function snapshot() {
 }
 
 function bubbleSort() {
+  snapshot();
   for (let i = sortedElements.length - 1; i >= 0; i--) {
     sortedElements[0].status = "MOVED";
 
@@ -226,6 +229,33 @@ function bubbleSort() {
     sortedElements[i].status = "SORTED";
     snapshot();
   }
+}
+
+function insertionSort() {
+  snapshot();
+  for (let i = 1; i < sortedElements.length; i++) {
+    let swapIndex = i;
+    sortedElements[i].status = "MOVED";
+    snapshot();
+    for (let j = i - 1; j >= 0; j--) {
+      if (sortedElements[j].num > sortedElements[swapIndex].num) {
+        const temp = sortedElements[swapIndex];
+        sortedElements[swapIndex] = sortedElements[j];
+        sortedElements[j] = temp;
+
+        sortedElements[swapIndex].status = "UNSORTED";
+        sortedElements[j].status = "MOVED";
+        swapIndex--;
+        snapshot();
+      } else {
+        sortedElements[swapIndex].status = "UNSORTED";
+        break;
+      }
+    }
+    sortedElements[0].status = "UNSORTED";
+  }
+  sortedElements.forEach((element) => (element.status = "SORTED"));
+  snapshot();
 }
 
 function mergeSort(low, high) {
@@ -310,19 +340,4 @@ function partition(low, high) {
     }
   }
   return i;
-}
-
-function insertionSort() {
-  for (let i = 1; i < sortArray.length; i++) {
-    let swapIndex = i;
-    for (let j = i - 1; j >= 0; j--) {
-      if (sortArray[j] > sortArray[swapIndex]) {
-        const temp = sortArray[swapIndex];
-        sortArray[swapIndex] = sortArray[j];
-        sortArray[j] = temp;
-        swapIndex--;
-        snapshot();
-      }
-    }
-  }
 }
