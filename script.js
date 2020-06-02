@@ -253,7 +253,6 @@ function insertionSort() {
 }
 
 function mergeSort(low, high) {
-  console.log("MERGE", low, high);
   if (low < high) {
     const middle = Math.floor((low + high) / 2);
     mergeSort(low, middle);
@@ -263,40 +262,27 @@ function mergeSort(low, high) {
 }
 
 function merge(low, middle, high) {
-  let copy = [];
-  for (i = low; i <= high; i++) {
-    copy[i] = sortedElements[i];
-  }
+  let leftIndex = low;
+  let rightIndex = middle;
 
-  let mergeCount = low;
-  let mid = middle;
-
-  while (low <= middle && mid < high) {
-    if (copy[low].num <= copy[mid + 1].num) {
-      sortedElements[mergeCount] = copy[low];
-      low++;
+  while (leftIndex <= rightIndex && rightIndex < high) {
+    if (sortedElements[leftIndex].num <= sortedElements[rightIndex + 1].num) {
+      // left element is in correct spot
+      leftIndex++;
     } else {
-      sortedElements[mergeCount] = copy[mid + 1];
-      mid++;
+      // element in right index must be moved to left index position, and all other elements inbetween shifted
+      const temp = sortedElements[rightIndex + 1];
+
+      for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
+        sortedElements[rightIndex + 1 - i] = sortedElements[rightIndex - i];
+      }
+
+      sortedElements[leftIndex] = temp;
+
+      rightIndex++;
+      leftIndex++;
     }
     snapshot();
-    mergeCount++;
-  }
-
-  if (low > middle) {
-    while (mid < high) {
-      sortedElements[mergeCount] = copy[mid + 1];
-      snapshot();
-      mid++;
-      mergeCount++;
-    }
-  } else {
-    while (low <= middle) {
-      sortedElements[mergeCount] = copy[low];
-      snapshot();
-      low++;
-      mergeCount++;
-    }
   }
 }
 
