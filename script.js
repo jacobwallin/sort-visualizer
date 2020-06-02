@@ -266,11 +266,15 @@ function merge(low, middle, high) {
   let rightIndex = middle;
 
   while (leftIndex <= rightIndex && rightIndex < high) {
+    sortedElements[leftIndex].status = "MOVED";
+    sortedElements[rightIndex + 1].status = "MOVED";
     if (sortedElements[leftIndex].num <= sortedElements[rightIndex + 1].num) {
       // left element is in correct spot
+      snapshot();
       leftIndex++;
     } else {
       // element in right index must be moved to left index position, and all other elements inbetween shifted
+      snapshot();
       const temp = sortedElements[rightIndex + 1];
 
       for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
@@ -282,6 +286,18 @@ function merge(low, middle, high) {
       rightIndex++;
       leftIndex++;
     }
+
+    sortedElements.forEach((element) => {
+      element.status = "UNSORTED";
+    });
+  }
+
+  if (low === 0 && high === sortedElements.length - 1) {
+    snapshot();
+    sortedElements.forEach((element) => {
+      element.status = "SORTED";
+    });
+
     snapshot();
   }
 }
