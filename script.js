@@ -74,11 +74,11 @@ function startAnimation() {
       sorting = true;
       break;
     case "merge-sort":
-      mergeSort(0, sortArray.length - 1);
+      mergeSort(0, sortedElements.length - 1);
       sorting = true;
       break;
     case "quick-sort":
-      quickSort(0, sortArray.length - 1);
+      quickSort(0, sortedElements.length - 1);
       sorting = true;
       break;
     case "insertion-sort":
@@ -123,12 +123,6 @@ elementQtySlider.oninput = function () {
   createRandomArray(this.value);
   drawGraph();
 };
-
-// let frSlider = document.getElementById("frame-rate");
-// frSlider.oninput = function () {
-//   console.log("FR", this.value);
-//   frameRate(2);
-// };
 
 let sorting = false;
 let startButton = document.getElementById("start-button");
@@ -259,6 +253,7 @@ function insertionSort() {
 }
 
 function mergeSort(low, high) {
+  console.log("MERGE", low, high);
   if (low < high) {
     const middle = Math.floor((low + high) / 2);
     mergeSort(low, middle);
@@ -270,18 +265,18 @@ function mergeSort(low, high) {
 function merge(low, middle, high) {
   let copy = [];
   for (i = low; i <= high; i++) {
-    copy[i] = sortArray[i];
+    copy[i] = sortedElements[i];
   }
 
   let mergeCount = low;
   let mid = middle;
 
   while (low <= middle && mid < high) {
-    if (copy[low] <= copy[mid + 1]) {
-      sortArray[mergeCount] = copy[low];
+    if (copy[low].num <= copy[mid + 1].num) {
+      sortedElements[mergeCount] = copy[low];
       low++;
     } else {
-      sortArray[mergeCount] = copy[mid + 1];
+      sortedElements[mergeCount] = copy[mid + 1];
       mid++;
     }
     snapshot();
@@ -290,14 +285,14 @@ function merge(low, middle, high) {
 
   if (low > middle) {
     while (mid < high) {
-      sortArray[mergeCount] = copy[mid + 1];
+      sortedElements[mergeCount] = copy[mid + 1];
       snapshot();
       mid++;
       mergeCount++;
     }
   } else {
     while (low <= middle) {
-      sortArray[mergeCount] = copy[low];
+      sortedElements[mergeCount] = copy[low];
       snapshot();
       low++;
       mergeCount++;
@@ -307,7 +302,6 @@ function merge(low, middle, high) {
 
 function quickSort(low, high) {
   let sortedElement = partition(low, high);
-  console.log(sortedElement);
   if (low < sortedElement - 1) {
     quickSort(low, sortedElement - 1);
   }
@@ -318,22 +312,22 @@ function quickSort(low, high) {
 
 function partition(low, high) {
   // pivot index
-  let pivot = sortArray[Math.floor((low + high) / 2)];
+  let pivot = sortedElements[Math.floor((low + high) / 2)].num;
   let i = low;
   let j = high;
 
   while (i <= j) {
-    while (sortArray[i] < pivot) {
+    while (sortedElements[i].num < pivot) {
       i++;
     }
-    while (sortArray[j] > pivot) {
+    while (sortedElements[j].num > pivot) {
       j--;
     }
     if (i <= j) {
-      // swap numers
-      var temp = sortArray[i];
-      sortArray[i] = sortArray[j];
-      sortArray[j] = temp;
+      // swap numbers
+      var temp = sortedElements[i];
+      sortedElements[i] = sortedElements[j];
+      sortedElements[j] = temp;
       snapshot();
       i++;
       j--;
