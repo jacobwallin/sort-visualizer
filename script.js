@@ -326,12 +326,16 @@ function partition(low, high) {
 
   let swapIndex = low;
   for (let i = low; i < high; i++) {
+    sortedElements[i].status = "MOVED";
+    sortedElements[swapIndex].status = "MOVED";
+    snapshot();
+    sortedElements[i].status = "UNSORTED";
+    sortedElements[swapIndex].status = "UNSORTED";
     if (sortedElements[i].num <= pivot) {
       if (i > swapIndex) {
         let temp2 = sortedElements[i];
         sortedElements[i] = sortedElements[swapIndex];
         sortedElements[swapIndex] = temp2;
-        snapshot();
       }
       swapIndex++;
     }
