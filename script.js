@@ -1,130 +1,3 @@
-function bubbleSort() {
-  snapshot();
-  for (let i = sortArray.length - 1; i >= 0; i--) {
-    for (let j = 0; j < i; j++) {
-      if (sortArray[j] > sortArray[j + 1]) {
-        // swap numbers
-        let temp = sortArray[j];
-        sortArray[j] = sortArray[j + 1];
-        sortArray[j + 1] = temp;
-      }
-      snapshot();
-    }
-  }
-}
-
-function mergeSort(low, high) {
-  if (low < high) {
-    const middle = Math.floor((low + high) / 2);
-    mergeSort(low, middle);
-    mergeSort(middle + 1, high);
-    merge(low, middle, high);
-  }
-}
-
-function merge(low, middle, high) {
-  let copy = [];
-  for (i = low; i <= high; i++) {
-    copy[i] = sortArray[i];
-  }
-
-  let mergeCount = low;
-  let mid = middle;
-
-  while (low <= middle && mid < high) {
-    if (copy[low] <= copy[mid + 1]) {
-      sortArray[mergeCount] = copy[low];
-      low++;
-    } else {
-      sortArray[mergeCount] = copy[mid + 1];
-      mid++;
-    }
-    snapshot();
-    mergeCount++;
-  }
-
-  if (low > middle) {
-    while (mid < high) {
-      sortArray[mergeCount] = copy[mid + 1];
-      snapshot();
-      mid++;
-      mergeCount++;
-    }
-  } else {
-    while (low <= middle) {
-      sortArray[mergeCount] = copy[low];
-      snapshot();
-      low++;
-      mergeCount++;
-    }
-  }
-}
-
-function quickSort(low, high) {
-  let sortedElement = partition(low, high);
-  console.log(sortedElement);
-  if (low < sortedElement - 1) {
-    quickSort(low, sortedElement - 1);
-  }
-  if (high > sortedElement) {
-    quickSort(sortedElement, high);
-  }
-}
-
-function partition(low, high) {
-  // pivot index
-  let pivot = sortArray[Math.floor((low + high) / 2)];
-  let i = low;
-  let j = high;
-
-  while (i <= j) {
-    while (sortArray[i] < pivot) {
-      i++;
-    }
-    while (sortArray[j] > pivot) {
-      j--;
-    }
-    if (i <= j) {
-      // swap numers
-      var temp = sortArray[i];
-      sortArray[i] = sortArray[j];
-      sortArray[j] = temp;
-      snapshot();
-      i++;
-      j--;
-    }
-  }
-  return i;
-}
-
-function insertionSort() {
-  for (let i = 1; i < sortArray.length; i++) {
-    let swapIndex = i;
-    for (let j = i - 1; j >= 0; j--) {
-      if (sortArray[j] > sortArray[swapIndex]) {
-        const temp = sortArray[swapIndex];
-        sortArray[swapIndex] = sortArray[j];
-        sortArray[j] = temp;
-        swapIndex--;
-        snapshot();
-      }
-    }
-  }
-}
-
-let state = [];
-function snapshot() {
-  state.push(sortArray.map((value) => value));
-}
-
-let sortArray = [];
-function createRandomArray(length) {
-  sortArray = [];
-  for (let i = 0; i < length; i++) {
-    sortArray.push(Math.random());
-  }
-}
-
 // p5 setup function
 function setup() {
   createCanvas(1000, 500);
@@ -143,7 +16,7 @@ function draw() {
 
 function stepGraph() {
   if (state.length > 0 && slider.value < state.length) {
-    sortArray = state[slider.value];
+    sortedElements = state[slider.value];
     slider.value++;
   }
 }
@@ -152,16 +25,46 @@ const BAR_SPACING = 1;
 function drawGraph() {
   background(210, 210, 210);
   let barWidth =
-    (width - (BAR_SPACING * sortArray.length + BAR_SPACING)) / sortArray.length;
-  for (let i = 0; i < sortArray.length; i++) {
+    (width - (BAR_SPACING * sortedElements.length + BAR_SPACING)) /
+    sortedElements.length;
+  for (let i = 0; i < sortedElements.length; i++) {
     noStroke();
-    fill(51, 102, 255);
+    switch (sortedElements[i].status) {
+      case "UNSORTED":
+        fill(
+          `rgba(100, 100, 100, ${map(sortedElements[i].num, 0, 1, 0.25, 1)})`
+        );
+        break;
+      case "SORTED":
+        fill(
+          `rgba(51, 102, 255, ${map(sortedElements[i].num, 0, 1, 0.35, 1)})`
+        );
+        break;
+      case "MOVED":
+        fill(255, 204, 0);
+        break;
+      case "SELECTED":
+        fill(255, 0, 0);
+        break;
+      default:
+        fill(0, 0, 0);
+        break;
+    }
     rect(
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
       height,
       barWidth,
-      -height * sortArray[i]
+      -height * sortedElements[i].num
     );
+  }
+}
+
+let sortedElements = [];
+function createRandomArray(length) {
+  sortedElements = [];
+  // creates array of objects, each with a random floating-point number and color
+  for (let i = 0; i < length; i++) {
+    sortedElements.push({ num: Math.random(), status: "UNSORTED" });
   }
 }
 
@@ -173,11 +76,11 @@ function startAnimation() {
       sorting = true;
       break;
     case "merge-sort":
-      mergeSort(0, sortArray.length - 1);
+      mergeSort(0, sortedElements.length - 1);
       sorting = true;
       break;
     case "quick-sort":
-      quickSort(0, sortArray.length - 1);
+      quickSort(0, sortedElements.length - 1);
       sorting = true;
       break;
     case "insertion-sort":
@@ -196,7 +99,7 @@ let slider = document.getElementById("progress-bar");
 slider.addEventListener("click", () => {});
 slider.oninput = function () {
   noLoop();
-  sortArray = state[slider.value];
+  sortedElements = state[slider.value];
   drawGraph();
   if (state.length > 0) {
     pauseButton.classList.add("selected");
@@ -222,12 +125,6 @@ elementQtySlider.oninput = function () {
   createRandomArray(this.value);
   drawGraph();
 };
-
-// let frSlider = document.getElementById("frame-rate");
-// frSlider.oninput = function () {
-//   console.log("FR", this.value);
-//   frameRate(2);
-// };
 
 let sorting = false;
 let startButton = document.getElementById("start-button");
@@ -300,23 +197,162 @@ function selectSortMethod(method) {
   }
 }
 
-// function bubbleSortStep(i, j) {
-//   if (i >= 0) {
-//     if (j < i) {
-//       if (sortArray[j] > sortArray[j + 1]) {
-//         // swap numbers
-//         let temp = sortArray[j];
-//         sortArray[j] = sortArray[j + 1];
-//         sortArray[j + 1] = temp;
-//         return { i, j: j + 1 };
-//       } else {
-//         return { i, j: j + 1 };
-//       }
-//     } else {
-//       return { i: i - 1, j: 0 };
-//     }
-//   }
-//   sorting = false;
-//   // noLoop();
-//   return { i, j };
-// }
+// SORTING FUNCTIONS
+
+let state = [];
+function snapshot() {
+  state.push(
+    sortedElements.map((value) => ({ num: value.num, status: value.status }))
+  );
+}
+
+function bubbleSort() {
+  snapshot();
+  for (let i = sortedElements.length - 1; i >= 0; i--) {
+    sortedElements[0].status = "MOVED";
+
+    for (let j = 0; j < i; j++) {
+      if (sortedElements[j].num > sortedElements[j + 1].num) {
+        // swap numbers
+        let temp = sortedElements[j];
+        sortedElements[j] = sortedElements[j + 1];
+        sortedElements[j + 1] = temp;
+      }
+      snapshot();
+      sortedElements[j].status = "UNSORTED";
+      sortedElements[j + 1].status = "MOVED";
+    }
+    sortedElements[i].status = "SORTED";
+    snapshot();
+  }
+}
+
+function insertionSort() {
+  snapshot();
+  for (let i = 1; i < sortedElements.length; i++) {
+    let swapIndex = i;
+    sortedElements[i].status = "MOVED";
+    snapshot();
+    for (let j = i - 1; j >= 0; j--) {
+      if (sortedElements[j].num > sortedElements[swapIndex].num) {
+        const temp = sortedElements[swapIndex];
+        sortedElements[swapIndex] = sortedElements[j];
+        sortedElements[j] = temp;
+
+        sortedElements[swapIndex].status = "UNSORTED";
+        sortedElements[j].status = "MOVED";
+        swapIndex--;
+        snapshot();
+      } else {
+        sortedElements[swapIndex].status = "UNSORTED";
+        break;
+      }
+    }
+    sortedElements[0].status = "UNSORTED";
+  }
+  sortedElements.forEach((element) => (element.status = "SORTED"));
+  snapshot();
+}
+
+function mergeSort(low, high) {
+  if (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    mergeSort(low, middle);
+    mergeSort(middle + 1, high);
+    merge(low, middle, high);
+  }
+}
+
+function merge(low, middle, high) {
+  let leftIndex = low;
+  let rightIndex = middle;
+
+  while (leftIndex <= rightIndex && rightIndex < high) {
+    sortedElements[leftIndex].status = "MOVED";
+    sortedElements[rightIndex + 1].status = "MOVED";
+    if (sortedElements[leftIndex].num <= sortedElements[rightIndex + 1].num) {
+      // left element is in correct spot
+      snapshot();
+      leftIndex++;
+    } else {
+      // element in right index must be moved to left index position, and all other elements inbetween shifted
+      snapshot();
+      const temp = sortedElements[rightIndex + 1];
+
+      for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
+        sortedElements[rightIndex + 1 - i] = sortedElements[rightIndex - i];
+      }
+
+      sortedElements[leftIndex] = temp;
+
+      rightIndex++;
+      leftIndex++;
+    }
+
+    sortedElements.forEach((element) => {
+      element.status = "UNSORTED";
+    });
+  }
+
+  if (low === 0 && high === sortedElements.length - 1) {
+    snapshot();
+    sortedElements.forEach((element) => {
+      element.status = "SORTED";
+    });
+
+    snapshot();
+  }
+}
+
+function quickSort(low, high) {
+  let sortedIndex = partition(low, high);
+  if (low < sortedIndex - 1) {
+    quickSort(low, sortedIndex - 1);
+  }
+  if (high > sortedIndex + 1) {
+    quickSort(sortedIndex + 1, high);
+  }
+}
+
+function partition(low, high) {
+  // pivot index
+  let pivotIndex = Math.floor((low + high) / 2);
+  let pivot = sortedElements[pivotIndex].num;
+
+  // swap pivot with element in high index
+  let temp = sortedElements[pivotIndex];
+  sortedElements[pivotIndex] = sortedElements[high];
+  sortedElements[high] = temp;
+
+  let swapIndex = low;
+  for (let i = low; i < high; i++) {
+    if (sortedElements[i].num <= pivot) {
+      if (i > swapIndex) {
+        let temp2 = sortedElements[i];
+        sortedElements[i] = sortedElements[swapIndex];
+        sortedElements[swapIndex] = temp2;
+        snapshot();
+      }
+      swapIndex++;
+    }
+  }
+
+  // swap pivot element into it's sorted position
+  let temp3 = sortedElements[high];
+  sortedElements[high] = sortedElements[swapIndex];
+  sortedElements[swapIndex] = temp3;
+
+  // set pivot element status to sorted
+  sortedElements[swapIndex].status = "SORTED";
+  snapshot();
+  if (low >= swapIndex - 1) {
+    sortedElements[low].status = "SORTED";
+    snapshot();
+  }
+  if (high <= swapIndex + 1) {
+    sortedElements[high].status = "SORTED";
+    snapshot();
+  }
+
+  return swapIndex;
+}
