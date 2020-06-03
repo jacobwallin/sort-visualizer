@@ -318,47 +318,41 @@ function partition(low, high) {
   // pivot index
   let pivotIndex = Math.floor((low + high) / 2);
   let pivot = sortedElements[pivotIndex].num;
-  let i = low;
-  let j = high - 1;
 
   // swap pivot with element in high index
   let temp = sortedElements[pivotIndex];
   sortedElements[pivotIndex] = sortedElements[high];
   sortedElements[high] = temp;
 
-  while (i <= j) {
-    while (sortedElements[i].num < pivot) {
-      i++;
-    }
-    while (sortedElements[j].num > pivot) {
-      j--;
-    }
-    if (i < j) {
-      // swap numbers
-      let temp2 = sortedElements[i];
-      sortedElements[i] = sortedElements[j];
-      sortedElements[j] = temp2;
-      snapshot();
-      i++;
-      j--;
+  let swapIndex = low;
+  for (let i = low; i < high; i++) {
+    if (sortedElements[i].num <= pivot) {
+      if (i > swapIndex) {
+        let temp2 = sortedElements[i];
+        sortedElements[i] = sortedElements[swapIndex];
+        sortedElements[swapIndex] = temp2;
+        snapshot();
+      }
+      swapIndex++;
     }
   }
+
   // swap pivot element into it's sorted position
   let temp3 = sortedElements[high];
-  sortedElements[high] = sortedElements[i];
-  sortedElements[i] = temp3;
+  sortedElements[high] = sortedElements[swapIndex];
+  sortedElements[swapIndex] = temp3;
 
   // set pivot element status to sorted
-  sortedElements[i].status = "SORTED";
+  sortedElements[swapIndex].status = "SORTED";
   snapshot();
-  if (low >= i - 1) {
+  if (low >= swapIndex - 1) {
     sortedElements[low].status = "SORTED";
     snapshot();
   }
-  if (high <= i + 1) {
+  if (high <= swapIndex + 1) {
     sortedElements[high].status = "SORTED";
     snapshot();
   }
 
-  return i;
+  return swapIndex;
 }
