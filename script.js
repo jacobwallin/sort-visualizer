@@ -43,6 +43,9 @@ function drawGraph() {
       case "MOVED":
         fill(255, 204, 0);
         break;
+      case "SELECTED":
+        fill(255, 0, 0);
+        break;
       default:
         fill(0, 0, 0);
         break;
@@ -56,7 +59,6 @@ function drawGraph() {
   }
 }
 
-let sortArray = [];
 let sortedElements = [];
 function createRandomArray(length) {
   sortedElements = [];
@@ -303,20 +305,26 @@ function merge(low, middle, high) {
 }
 
 function quickSort(low, high) {
-  let sortedElement = partition(low, high);
-  if (low < sortedElement - 1) {
-    quickSort(low, sortedElement - 1);
+  let sortedIndex = partition(low, high);
+  if (low < sortedIndex - 1) {
+    quickSort(low, sortedIndex - 1);
   }
-  if (high > sortedElement) {
-    quickSort(sortedElement, high);
+  if (high > sortedIndex + 1) {
+    quickSort(sortedIndex + 1, high);
   }
 }
 
 function partition(low, high) {
   // pivot index
-  let pivot = sortedElements[Math.floor((low + high) / 2)].num;
+  let pivotIndex = Math.floor((low + high) / 2);
+  let pivot = sortedElements[pivotIndex].num;
   let i = low;
-  let j = high;
+  let j = high - 1;
+
+  // swap pivot with element in high index
+  let temp = sortedElements[pivotIndex];
+  sortedElements[pivotIndex] = sortedElements[high];
+  sortedElements[high] = temp;
 
   while (i <= j) {
     while (sortedElements[i].num < pivot) {
@@ -325,15 +333,32 @@ function partition(low, high) {
     while (sortedElements[j].num > pivot) {
       j--;
     }
-    if (i <= j) {
+    if (i < j) {
       // swap numbers
-      var temp = sortedElements[i];
+      let temp2 = sortedElements[i];
       sortedElements[i] = sortedElements[j];
-      sortedElements[j] = temp;
+      sortedElements[j] = temp2;
       snapshot();
       i++;
       j--;
     }
   }
+  // swap pivot element into it's sorted position
+  let temp3 = sortedElements[high];
+  sortedElements[high] = sortedElements[i];
+  sortedElements[i] = temp3;
+
+  // set pivot element status to sorted
+  sortedElements[i].status = "SORTED";
+  snapshot();
+  if (low >= i - 1) {
+    sortedElements[low].status = "SORTED";
+    snapshot();
+  }
+  if (high <= i + 1) {
+    sortedElements[high].status = "SORTED";
+    snapshot();
+  }
+
   return i;
 }
