@@ -66,6 +66,12 @@ function createRandomArray(length) {
   for (let i = 0; i < length; i++) {
     sortedElements.push({ num: Math.random(), status: "UNSORTED" });
   }
+
+  if (elementOrder === "pre-sorted-asc") {
+    preSort(true);
+  } else if (elementOrder === "pre-sorted-desc") {
+    preSort(false);
+  }
 }
 
 let selectedSort = "";
@@ -114,10 +120,14 @@ elementQtySlider.oninput = function () {
   // pause p5 draw loop
   noLoop();
   // reset state array and slider
-  state = [];
-  slider.value = 0;
-  slider.max = 0;
-  sorting = false;
+  if (state.length > 0) {
+    state = [];
+    slider.value = 0;
+    slider.max = 0;
+    sorting = false;
+    startPauseButton.innerHTML = "START";
+    isPaused = true;
+  }
   // create new random array and draw it on canvas
   elementQty.innerHTML = this.value;
   createRandomArray(this.value);
@@ -147,20 +157,20 @@ startPauseButton.addEventListener("click", () => {
   }
 });
 
-let stepBackwardButton = document.getElementById("step-backward-button");
-stepBackwardButton.addEventListener("click", () => {
-  if (state.length > 0 && slider.value > 0) {
-    noLoop();
-    slider.value--;
-    sortedElements = state[slider.value];
-    drawGraph();
-    startPauseButton.innerHTML = "START";
-    isPaused = true;
-  }
-});
+document
+  .getElementById("step-backward-button")
+  .addEventListener("click", () => {
+    if (state.length > 0 && slider.value > 0) {
+      noLoop();
+      slider.value--;
+      sortedElements = state[slider.value];
+      drawGraph();
+      startPauseButton.innerHTML = "START";
+      isPaused = true;
+    }
+  });
 
-let stepForwardButton = document.getElementById("step-forward-button");
-stepForwardButton.addEventListener("click", () => {
+document.getElementById("step-forward-button").addEventListener("click", () => {
   if (state.length > 0 && slider.value < state.length - 1) {
     noLoop();
     slider.value++;
@@ -171,41 +181,40 @@ stepForwardButton.addEventListener("click", () => {
   }
 });
 
-let sortButtons = [];
+document
+  .getElementsByClassName("dropdown-content")[0]
+  .addEventListener("click", (event) => {
+    document.getElementById("selected-algorithm").innerHTML =
+      event.target.innerText;
+    if (sorting) {
+    }
+    selectSortMethod(event.target.id);
+  });
 
-let bubbleSortButton = document.getElementById("bubble-sort");
-sortButtons.push(bubbleSortButton);
-bubbleSortButton.addEventListener("click", () => {
-  selectSortMethod("bubble-sort");
-});
-
-let insertionSortButton = document.getElementById("insertion-sort");
-sortButtons.push(insertionSortButton);
-insertionSortButton.addEventListener("click", () => {
-  selectSortMethod("insertion-sort");
-});
-
-let mergeSortButton = document.getElementById("merge-sort");
-sortButtons.push(mergeSortButton);
-mergeSortButton.addEventListener("click", () => {
-  selectSortMethod("merge-sort");
-});
-
-let quickSortButton = document.getElementById("quick-sort");
-sortButtons.push(quickSortButton);
-quickSortButton.addEventListener("click", () => {
-  selectSortMethod("quick-sort");
-});
+let elementOrder = "";
+document
+  .getElementsByClassName("order-dropdown-content")[0]
+  .addEventListener("click", (event) => {
+    if (elementOrder !== event.target.id) {
+      elementOrder = event.target.id;
+      if (sorting) {
+        state = [];
+        slider.value = 0;
+        slider.max = 0;
+        sorting = false;
+        noLoop();
+        startPauseButton.innerHTML = "START";
+        isPaused = true;
+      }
+      createRandomArray(elementQtySlider.value);
+      drawGraph();
+    }
+    document.getElementById("selected-order").innerHTML =
+      event.target.innerText;
+  });
 
 function selectSortMethod(method) {
   selectedSort = method;
-  sortButtons.forEach((button) => {
-    if (button.id === method) {
-      button.classList.add("selected");
-    } else {
-      button.classList.remove("selected");
-    }
-  });
   if (sorting) {
     state = [];
     slider.value = 0;
@@ -390,4 +399,22 @@ function partition(low, high) {
   }
 
   return swapIndex;
+}
+
+function preSort(sortAscending) {
+  for (let i = sortedElements.length - 1; i >= 0; i--) {
+    for (let j = 0; j < i; j++) {
+      if (sortAscending) {
+        if (sortedElements[j].num > sortedElements[j + 1].num) {
+          let temp = sortedElements[j];
+          sortedElements[j] = sortedElements[j + 1];
+          sortedElements[j + 1] = temp;
+        }
+      } else if (sortedElements[j].num < sortedElements[j + 1].num) {
+        let temp = sortedElements[j];
+        sortedElements[j] = sortedElements[j + 1];
+        sortedElements[j + 1] = temp;
+      }
+    }
+  }
 }

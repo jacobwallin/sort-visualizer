@@ -8,17 +8,31 @@
   </head>
   <body>
     <div id = "header">
-      <div id="bubble-sort" class="sort-type">Bubble Sort</div>
-      <div id="insertion-sort" class="sort-type">Insertion Sort</div>
-      <div id="merge-sort" class="sort-type">Merge Sort</div>
-      <div id="quick-sort" class="sort-type">Quick Sort</div>
+      <div class="algorithm-dropdown">
+        <div class="algorithm-drop-btn"><span id="selected-algorithm">Select Algorithm</span> <span id="down-arrow">▼</span></div>
+        <div class="dropdown-content">
+          <div class="algorithm-btn" id="bubble-sort">Bubble Sort</div>
+          <div class="algorithm-btn" id="insertion-sort">Insertion Sort</div>
+          <div class="algorithm-btn" id="merge-sort">Merge Sort</div>
+          <div class="algorithm-btn" id="quick-sort">Quick Sort</div>
+        </div>
+      </div>
+      <div class="order-dropdown">
+        <div class="order-drop-btn"><span id="selected-order">Random Order</span> <span id="down-arrow">▼</span></div>
+        <div class="order-dropdown-content">
+          <div class="order-btn" id="random-order">Random Order</div>
+          <div class="order-btn" id="pre-sorted-asc">Pre-Sorted Asc.</div>
+          <div class="order-btn" id="pre-sorted-desc">Pre-Sorted Desc.</div>
+        </div>
+      </div>
+      <!-- <div>Generate New Array</div> -->
       <div class="vl"></div>
-      <div id="step-backward-button">STEP -</div>
+      <div id="step-backward-button">Step -</div>
       <div id="start-button">START</div>
-      <div id="step-forward-button">STEP +</div>
+      <div id="step-forward-button">Step +</div>
       <div class="vl"></div>
       <input type="range" min="5" max="250" value="50" class="slider" id="qty-slider">
-      <p>Elements: <span id="elements"></span></p>
+      <p id="element-slider">Elements: <span id="elements"></span></p>
 
     </div> 
     </div>
