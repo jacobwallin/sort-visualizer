@@ -102,8 +102,8 @@ slider.oninput = function () {
   sortedElements = state[slider.value];
   drawGraph();
   if (state.length > 0) {
-    pauseButton.classList.add("selected");
-    startButton.classList.remove("selected");
+    startPauseButton.innerHTML = "START";
+    isPaused = true;
   }
 };
 
@@ -118,8 +118,6 @@ elementQtySlider.oninput = function () {
   slider.value = 0;
   slider.max = 0;
   sorting = false;
-  pauseButton.classList.remove("selected");
-  startButton.classList.remove("selected");
   // create new random array and draw it on canvas
   elementQty.innerHTML = this.value;
   createRandomArray(this.value);
@@ -127,25 +125,25 @@ elementQtySlider.oninput = function () {
 };
 
 let sorting = false;
-let startButton = document.getElementById("start-button");
-startButton.addEventListener("click", () => {
-  if (sorting) {
-    loop();
+let isPaused = true;
+let startPauseButton = document.getElementById("start-button");
+startPauseButton.addEventListener("click", () => {
+  if (isPaused) {
+    if (sorting) {
+      loop();
+      isPaused = false;
+      startPauseButton.innerHTML = "PAUSE";
+    } else if (selectedSort !== "") {
+      startAnimation();
+      isPaused = false;
+      startPauseButton.innerHTML = "PAUSE";
+    }
   } else {
-    startAnimation();
-  }
-  if (state.length > 0) {
-    startButton.classList.add("selected");
-    pauseButton.classList.remove("selected");
-  }
-});
-
-let pauseButton = document.getElementById("pause-button");
-pauseButton.addEventListener("click", () => {
-  noLoop();
-  if (state.length > 0) {
-    pauseButton.classList.add("selected");
-    startButton.classList.remove("selected");
+    if (sorting) {
+      noLoop();
+      startPauseButton.innerHTML = "START";
+      isPaused = true;
+    }
   }
 });
 
@@ -192,8 +190,6 @@ function selectSortMethod(method) {
     createRandomArray(elementQtySlider.value);
     drawGraph();
     noLoop();
-    pauseButton.classList.remove("selected");
-    startButton.classList.remove("selected");
   }
 }
 
@@ -208,11 +204,13 @@ function snapshot() {
 
 function bubbleSort() {
   snapshot();
+  let didSwap = false;
   for (let i = sortedElements.length - 1; i >= 0; i--) {
     sortedElements[0].status = "MOVED";
-
+    didSwap = false;
     for (let j = 0; j < i; j++) {
       if (sortedElements[j].num > sortedElements[j + 1].num) {
+        didSwap = true;
         // swap numbers
         let temp = sortedElements[j];
         sortedElements[j] = sortedElements[j + 1];
@@ -223,6 +221,12 @@ function bubbleSort() {
       sortedElements[j + 1].status = "MOVED";
     }
     sortedElements[i].status = "SORTED";
+    if (!didSwap) {
+      for (let j = 0; j < i; j++) {
+        sortedElements[j].status = "SORTED";
+      }
+      break;
+    }
     snapshot();
   }
 }
