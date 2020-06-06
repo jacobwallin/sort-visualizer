@@ -147,6 +147,30 @@ startPauseButton.addEventListener("click", () => {
   }
 });
 
+let stepBackwardButton = document.getElementById("step-backward-button");
+stepBackwardButton.addEventListener("click", () => {
+  if (state.length > 0 && slider.value > 0) {
+    noLoop();
+    slider.value--;
+    sortedElements = state[slider.value];
+    drawGraph();
+    startPauseButton.innerHTML = "START";
+    isPaused = true;
+  }
+});
+
+let stepForwardButton = document.getElementById("step-forward-button");
+stepForwardButton.addEventListener("click", () => {
+  if (state.length > 0 && slider.value < state.length - 1) {
+    noLoop();
+    slider.value++;
+    sortedElements = state[slider.value];
+    drawGraph();
+    startPauseButton.innerHTML = "START";
+    isPaused = true;
+  }
+});
+
 let sortButtons = [];
 
 let bubbleSortButton = document.getElementById("bubble-sort");
@@ -190,6 +214,8 @@ function selectSortMethod(method) {
     createRandomArray(elementQtySlider.value);
     drawGraph();
     noLoop();
+    startPauseButton.innerHTML = "START";
+    isPaused = true;
   }
 }
 
@@ -225,6 +251,7 @@ function bubbleSort() {
       for (let j = 0; j < i; j++) {
         sortedElements[j].status = "SORTED";
       }
+      snapshot();
       break;
     }
     snapshot();

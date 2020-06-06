@@ -49,11 +49,6 @@ body {
   color: white;
 }
 
-#pause-button:hover {
-  cursor: pointer;
-  color: white;
-}
-
 #start-button.selected {
   padding: 5px;
   color: black;
@@ -66,6 +61,12 @@ body {
   color: black;
   background-color: yellow;
   border-radius: 3px;
+}
+
+#step-backward-button:hover,
+#step-forward-button:hover {
+  cursor: pointer;
+  color: white;
 }
 
 .vl {
