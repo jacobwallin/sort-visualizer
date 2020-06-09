@@ -1,6 +1,6 @@
 // p5 setup function
 function setup() {
-  createCanvas(1000, 500);
+  createCanvas(1000, 500).parent("sketch-holder");
   frameRate(60);
   createRandomArray(elementQtySlider.value);
   noLoop();
@@ -191,7 +191,7 @@ document
     selectSortMethod(event.target.id);
   });
 
-let elementOrder = "";
+let elementOrder = "random-order";
 document
   .getElementsByClassName("order-dropdown-content")[0]
   .addEventListener("click", (event) => {
