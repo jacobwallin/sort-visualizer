@@ -3,10 +3,8 @@ import snapshot from "../utils/snapshot";
 let animationState = [];
 
 export default function mergeSort(array) {
+  animationState = [];
   mergeSortHelper(0, array.length - 1, array);
-  animationState[animationState.length - 1][
-    animationState[animationState.length - 1].length - 1
-  ].status = "SORTED";
   return animationState;
 }
 
