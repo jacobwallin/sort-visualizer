@@ -4,6 +4,9 @@ let animationState = [];
 
 export default function mergeSort(array) {
   mergeSortHelper(0, array.length - 1, array);
+  animationState[animationState.length - 1][
+    animationState[animationState.length - 1].length - 1
+  ].status = "SORTED";
   return animationState;
 }
 
@@ -23,13 +26,21 @@ function merge(low, middle, high, array) {
   while (leftIndex <= rightIndex && rightIndex < high) {
     array[leftIndex].status = "MOVED";
     array[rightIndex + 1].status = "MOVED";
+    snapshot(animationState, array);
     if (array[leftIndex].num <= array[rightIndex + 1].num) {
       // left element is in correct spot
-      snapshot(animationState, array);
+      array[rightIndex + 1].status = "UNSORTED";
+      if (low === 0 && high === array.length - 1) {
+        array[leftIndex].status = "SORTED";
+      } else {
+        array[leftIndex].status = "UNSORTED";
+      }
       leftIndex++;
     } else {
       // element in right index must be moved to left index position, and all other elements inbetween shifted
-      snapshot(animationState, array);
+      array[rightIndex + 1].status = "UNSORTED";
+      array[leftIndex].status = "UNSORTED";
+
       const temp = array[rightIndex + 1];
 
       for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
@@ -38,21 +49,13 @@ function merge(low, middle, high, array) {
 
       array[leftIndex] = temp;
 
+      if (low === 0 && high === array.length - 1) {
+        array[leftIndex].status = "SORTED";
+      }
+
       rightIndex++;
       leftIndex++;
     }
-
-    array.forEach((element) => {
-      element.status = "UNSORTED";
-    });
   }
-
-  if (low === 0 && high === array.length - 1) {
-    snapshot(animationState, array);
-    array.forEach((element) => {
-      element.status = "SORTED";
-    });
-
-    snapshot(animationState, array);
-  }
+  snapshot(animationState, array);
 }
