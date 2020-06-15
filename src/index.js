@@ -1,17 +1,21 @@
-// p5 setup function
-function setup() {
-  createCanvas(1000, 500).parent("sketch-holder");
-  frameRate(60);
-  createRandomArray(elementQtySlider.value);
-  noLoop();
-}
+import p5 from "p5";
 
-// p5 draw function
-function draw() {
-  console.log("DRAW");
+let p5Canvas = new p5(sketch);
 
-  stepGraph();
-  drawGraph();
+function sketch(p) {
+  // p5 setup function
+  p.setup = function () {
+    p.createCanvas(1000, 500).parent("sketch-holder");
+    p.frameRate(60);
+    createRandomArray(elementQtySlider.value);
+    p.noLoop();
+  };
+
+  // p5 draw function
+  p.draw = function () {
+    stepGraph();
+    drawGraph();
+  };
 }
 
 function stepGraph() {
@@ -23,38 +27,50 @@ function stepGraph() {
 
 const BAR_SPACING = 1;
 function drawGraph() {
-  background(210, 210, 210);
+  p5Canvas.background(210, 210, 210);
   let barWidth =
-    (width - (BAR_SPACING * sortedElements.length + BAR_SPACING)) /
+    (p5Canvas.width - (BAR_SPACING * sortedElements.length + BAR_SPACING)) /
     sortedElements.length;
   for (let i = 0; i < sortedElements.length; i++) {
-    noStroke();
+    p5Canvas.noStroke();
     switch (sortedElements[i].status) {
       case "UNSORTED":
-        fill(
-          `rgba(100, 100, 100, ${map(sortedElements[i].num, 0, 1, 0.25, 1)})`
+        p5Canvas.fill(
+          `rgba(100, 100, 100, ${p5Canvas.map(
+            sortedElements[i].num,
+            0,
+            1,
+            0.25,
+            1
+          )})`
         );
         break;
       case "SORTED":
-        fill(
-          `rgba(51, 102, 255, ${map(sortedElements[i].num, 0, 1, 0.35, 1)})`
+        p5Canvas.fill(
+          `rgba(51, 102, 255, ${p5Canvas.map(
+            sortedElements[i].num,
+            0,
+            1,
+            0.35,
+            1
+          )})`
         );
         break;
       case "MOVED":
-        fill(255, 204, 0);
+        p5Canvas.fill(255, 204, 0);
         break;
       case "SELECTED":
-        fill(255, 0, 0);
+        p5Canvas.fill(255, 0, 0);
         break;
       default:
-        fill(0, 0, 0);
+        p5Canvas.fill(0, 0, 0);
         break;
     }
-    rect(
+    p5Canvas.rect(
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
-      height,
+      p5Canvas.height,
       barWidth,
-      -height * sortedElements[i].num
+      -p5Canvas.height * sortedElements[i].num
     );
   }
 }
@@ -98,13 +114,13 @@ function startAnimation() {
   }
 
   slider.max = state.length - 1;
-  loop();
+  p5Canvas.loop();
 }
 
 let slider = document.getElementById("progress-bar");
 slider.addEventListener("click", () => {});
 slider.oninput = function () {
-  noLoop();
+  p5Canvas.noLoop();
   sortedElements = state[slider.value];
   drawGraph();
   if (state.length > 0) {
@@ -118,7 +134,7 @@ let elementQtySlider = document.getElementById("qty-slider");
 elementQty.innerHTML = elementQtySlider.value;
 elementQtySlider.oninput = function () {
   // pause p5 draw loop
-  noLoop();
+  p5Canvas.noLoop();
   // reset state array and slider
   if (state.length > 0) {
     state = [];
@@ -140,7 +156,7 @@ let startPauseButton = document.getElementById("start-button");
 startPauseButton.addEventListener("click", () => {
   if (isPaused) {
     if (sorting) {
-      loop();
+      p5Canvas.loop();
       isPaused = false;
       startPauseButton.innerHTML = "PAUSE";
     } else if (selectedSort !== "") {
@@ -150,7 +166,7 @@ startPauseButton.addEventListener("click", () => {
     }
   } else {
     if (sorting) {
-      noLoop();
+      p5Canvas.noLoop();
       startPauseButton.innerHTML = "START";
       isPaused = true;
     }
@@ -161,7 +177,7 @@ document
   .getElementById("step-backward-button")
   .addEventListener("click", () => {
     if (state.length > 0 && slider.value > 0) {
-      noLoop();
+      p5Canvas.noLoop();
       slider.value--;
       sortedElements = state[slider.value];
       drawGraph();
@@ -172,7 +188,7 @@ document
 
 document.getElementById("step-forward-button").addEventListener("click", () => {
   if (state.length > 0 && slider.value < state.length - 1) {
-    noLoop();
+    p5Canvas.noLoop();
     slider.value++;
     sortedElements = state[slider.value];
     drawGraph();
@@ -202,7 +218,7 @@ document
         slider.value = 0;
         slider.max = 0;
         sorting = false;
-        noLoop();
+        p5Canvas.noLoop();
         startPauseButton.innerHTML = "START";
         isPaused = true;
       }
@@ -222,7 +238,7 @@ function selectSortMethod(method) {
     sorting = false;
     createRandomArray(elementQtySlider.value);
     drawGraph();
-    noLoop();
+    p5Canvas.noLoop();
     startPauseButton.innerHTML = "START";
     isPaused = true;
   }
