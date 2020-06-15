@@ -1,5 +1,10 @@
 import p5 from "p5";
 
+import bubbleSort from "./algorithms/bubble";
+import insertionSort from "./algorithms/insertion";
+import mergeSort from "./algorithms/merge";
+import quickSort from "./algorithms/quick";
+
 let p5Canvas = new p5(sketch);
 
 function sketch(p) {
@@ -89,24 +94,24 @@ function createRandomArray(length) {
     preSort(false);
   }
 }
-
+let state = [];
 let selectedSort = "";
 function startAnimation() {
   switch (selectedSort) {
     case "bubble-sort":
-      bubbleSort();
+      state = bubbleSort(sortedElements);
       sorting = true;
       break;
     case "merge-sort":
-      mergeSort(0, sortedElements.length - 1);
+      state = mergeSort(sortedElements);
       sorting = true;
       break;
     case "quick-sort":
-      quickSort(0, sortedElements.length - 1);
+      state = quickSort(sortedElements);
       sorting = true;
       break;
     case "insertion-sort":
-      insertionSort();
+      state = insertionSort(sortedElements);
       sorting = true;
       break;
     default:
@@ -245,177 +250,6 @@ function selectSortMethod(method) {
 }
 
 // SORTING FUNCTIONS
-
-let state = [];
-function snapshot() {
-  state.push(
-    sortedElements.map((value) => ({ num: value.num, status: value.status }))
-  );
-}
-
-function bubbleSort() {
-  snapshot();
-  let didSwap = false;
-  for (let i = sortedElements.length - 1; i >= 0; i--) {
-    sortedElements[0].status = "MOVED";
-    didSwap = false;
-    for (let j = 0; j < i; j++) {
-      if (sortedElements[j].num > sortedElements[j + 1].num) {
-        didSwap = true;
-        // swap numbers
-        let temp = sortedElements[j];
-        sortedElements[j] = sortedElements[j + 1];
-        sortedElements[j + 1] = temp;
-      }
-      snapshot();
-      sortedElements[j].status = "UNSORTED";
-      sortedElements[j + 1].status = "MOVED";
-    }
-    sortedElements[i].status = "SORTED";
-    if (!didSwap) {
-      for (let j = 0; j < i; j++) {
-        sortedElements[j].status = "SORTED";
-      }
-      snapshot();
-      break;
-    }
-    snapshot();
-  }
-}
-
-function insertionSort() {
-  snapshot();
-  for (let i = 1; i < sortedElements.length; i++) {
-    let swapIndex = i;
-    sortedElements[i].status = "MOVED";
-    snapshot();
-    for (let j = i - 1; j >= 0; j--) {
-      if (sortedElements[j].num > sortedElements[swapIndex].num) {
-        const temp = sortedElements[swapIndex];
-        sortedElements[swapIndex] = sortedElements[j];
-        sortedElements[j] = temp;
-
-        sortedElements[swapIndex].status = "UNSORTED";
-        sortedElements[j].status = "MOVED";
-        swapIndex--;
-        snapshot();
-      } else {
-        sortedElements[swapIndex].status = "UNSORTED";
-        break;
-      }
-    }
-    sortedElements[0].status = "UNSORTED";
-  }
-  sortedElements.forEach((element) => (element.status = "SORTED"));
-  snapshot();
-}
-
-function mergeSort(low, high) {
-  if (low < high) {
-    const middle = Math.floor((low + high) / 2);
-    mergeSort(low, middle);
-    mergeSort(middle + 1, high);
-    merge(low, middle, high);
-  }
-}
-
-function merge(low, middle, high) {
-  let leftIndex = low;
-  let rightIndex = middle;
-
-  while (leftIndex <= rightIndex && rightIndex < high) {
-    sortedElements[leftIndex].status = "MOVED";
-    sortedElements[rightIndex + 1].status = "MOVED";
-    if (sortedElements[leftIndex].num <= sortedElements[rightIndex + 1].num) {
-      // left element is in correct spot
-      snapshot();
-      leftIndex++;
-    } else {
-      // element in right index must be moved to left index position, and all other elements inbetween shifted
-      snapshot();
-      const temp = sortedElements[rightIndex + 1];
-
-      for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
-        sortedElements[rightIndex + 1 - i] = sortedElements[rightIndex - i];
-      }
-
-      sortedElements[leftIndex] = temp;
-
-      rightIndex++;
-      leftIndex++;
-    }
-
-    sortedElements.forEach((element) => {
-      element.status = "UNSORTED";
-    });
-  }
-
-  if (low === 0 && high === sortedElements.length - 1) {
-    snapshot();
-    sortedElements.forEach((element) => {
-      element.status = "SORTED";
-    });
-
-    snapshot();
-  }
-}
-
-function quickSort(low, high) {
-  let sortedIndex = partition(low, high);
-  if (low < sortedIndex - 1) {
-    quickSort(low, sortedIndex - 1);
-  }
-  if (high > sortedIndex + 1) {
-    quickSort(sortedIndex + 1, high);
-  }
-}
-
-function partition(low, high) {
-  // pivot index
-  let pivotIndex = Math.floor((low + high) / 2);
-  let pivot = sortedElements[pivotIndex].num;
-
-  // swap pivot with element in high index
-  let temp = sortedElements[pivotIndex];
-  sortedElements[pivotIndex] = sortedElements[high];
-  sortedElements[high] = temp;
-
-  let swapIndex = low;
-  for (let i = low; i < high; i++) {
-    sortedElements[i].status = "MOVED";
-    sortedElements[swapIndex].status = "MOVED";
-    snapshot();
-    sortedElements[i].status = "UNSORTED";
-    sortedElements[swapIndex].status = "UNSORTED";
-    if (sortedElements[i].num <= pivot) {
-      if (i > swapIndex) {
-        let temp2 = sortedElements[i];
-        sortedElements[i] = sortedElements[swapIndex];
-        sortedElements[swapIndex] = temp2;
-      }
-      swapIndex++;
-    }
-  }
-
-  // swap pivot element into it's sorted position
-  let temp3 = sortedElements[high];
-  sortedElements[high] = sortedElements[swapIndex];
-  sortedElements[swapIndex] = temp3;
-
-  // set pivot element status to sorted
-  sortedElements[swapIndex].status = "SORTED";
-  snapshot();
-  if (low >= swapIndex - 1) {
-    sortedElements[low].status = "SORTED";
-    snapshot();
-  }
-  if (high <= swapIndex + 1) {
-    sortedElements[high].status = "SORTED";
-    snapshot();
-  }
-
-  return swapIndex;
-}
 
 function preSort(sortAscending) {
   for (let i = sortedElements.length - 1; i >= 0; i--) {
