@@ -249,8 +249,6 @@ function selectSortMethod(method) {
   }
 }
 
-// SORTING FUNCTIONS
-
 function preSort(sortAscending) {
   for (let i = sortedElements.length - 1; i >= 0; i--) {
     for (let j = 0; j < i; j++) {
