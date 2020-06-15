@@ -3,6 +3,7 @@ import snapshot from "../utils/snapshot";
 let animationState = [];
 
 export default function quickSort(array) {
+  animationState = [];
   quickSortHelper(0, array.length - 1, array);
   return animationState;
 }

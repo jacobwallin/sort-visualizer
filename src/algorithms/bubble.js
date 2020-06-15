@@ -3,6 +3,7 @@ import snapshot from "../utils/snapshot";
 let animationState = [];
 
 export default function bubbleSort(array) {
+  animationState = [];
   snapshot(animationState, array);
   let didSwap = false;
   for (let i = array.length - 1; i >= 0; i--) {
