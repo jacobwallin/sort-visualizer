@@ -1,0 +1,37 @@
+{
+  "bubbleSort": {
+    "description": "TBD",
+    "timeExplanation": "TBD",
+    "spaceExplanation": "TBD",
+    "timeComplexity": {
+      "average": "O(n²)",
+      "best": "O(n)",
+      "worst": "O(n²)"
+    },
+    "spaceComplexity": "O(1)"
+  },
+  "insertionSort": {
+    "description": "TBD",
+    "timeComplexity": {
+      "average": "O(n²)",
+      "best": "O(n)",
+      "worst": "O(n²)"
+    }
+  },
+  "mergeSort": {
+    "description": "TBD",
+    "timeComplexity": {
+      "average": "O(nlog(n))",
+      "best": "O(nlog(n))",
+      "worst": "O(nlog(n))"
+    }
+  },
+  "quickSort": {
+    "description": "TBD",
+    "timeComplexity": {
+      "average": "O(nlog(n))",
+      "best": "O(nlog(n))",
+      "worst": "O(n²)"
+    }
+  }
+}

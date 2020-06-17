@@ -1,3 +1,5 @@
+import "./main.scss";
+
 import p5 from "p5";
 
 import bubbleSort from "./algorithms/bubble";
@@ -95,7 +97,7 @@ function createRandomArray(length) {
   }
 }
 let state = [];
-let selectedSort = "";
+let selectedSort = "bubble-sort";
 function startAnimation() {
   switch (selectedSort) {
     case "bubble-sort":

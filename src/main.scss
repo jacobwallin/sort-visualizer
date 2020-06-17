@@ -1,0 +1,106 @@
+@import "./styling/header";
+
+$complexity-ave-color: rgb(51, 153, 255);
+$complexity-best-color: rgb(51, 204, 51);
+$complexity-worst-color: rgb(255, 102, 102);
+$complexity-space-color: rgb(160, 160, 160);
+
+body {
+  background-color: lightgray;
+  font-family: sans-serif;
+  width: 1000px;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.algorithm-info {
+  width: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  padding-bottom: 15px;
+}
+
+.complexity-title {
+  padding: 20px 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.complexity {
+  @include flex-col;
+
+  &-title {
+    font-weight: bold;
+  }
+
+  &-data {
+    @include flex-row;
+  }
+
+  &-data-title {
+    font-size: 0.85rem;
+    padding-bottom: 1px;
+    border-bottom: 1px solid black;
+  }
+
+  &-data-value {
+    font-weight: bold;
+    padding-top: 5px;
+  }
+
+  @mixin complexity-constants {
+    border-radius: 5px;
+    padding: 8px 25px;
+    width: 60px;
+  }
+
+  &-average {
+    @include complexity-constants;
+    background-color: $complexity-ave-color;
+  }
+
+  &-best {
+    @include complexity-constants;
+    background-color: $complexity-best-color;
+  }
+
+  &-worst {
+    @include complexity-constants;
+    background-color: $complexity-worst-color;
+  }
+
+  &-space {
+    @include complexity-constants;
+    background-color: $complexity-space-color;
+  }
+}
+
+.slider {
+  height: 25px;
+  width: 100%;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.slider-container {
+  text-align: center;
+}
+
+.progress-slider-note {
+  font-size: 0.8rem;
+}
