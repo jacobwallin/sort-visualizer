@@ -57,7 +57,7 @@ function drawGraph() {
         break;
       case "SORTED":
         p5Canvas.fill(
-          `rgba(51, 102, 255, ${p5Canvas.map(
+          `rgba(0, 102, 255, ${p5Canvas.map(
             sortedElements[i].num,
             0,
             1,

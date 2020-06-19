@@ -41,6 +41,8 @@ function merge(low, middle, high, array) {
 
       const temp = array[rightIndex + 1];
 
+      // shift all elements between the left and right index
+      // this is for visualization purposes only, to prevent duplicate values from being displayed simultaniously
       for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
         array[rightIndex + 1 - i] = array[rightIndex - i];
       }
@@ -53,6 +55,12 @@ function merge(low, middle, high, array) {
 
       rightIndex++;
       leftIndex++;
+    }
+  }
+
+  if (low === 0 && high === array.length - 1) {
+    for (let i = leftIndex; i < array.length; i++) {
+      array[i].status = "SORTED";
     }
   }
   snapshot(animationState, array);
