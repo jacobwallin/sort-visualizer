@@ -11,10 +11,10 @@
           <span id="down-arrow">▼</span>
         </div>
         <div class="dropdown-content">
-          <div class="algorithm-btn" id="bubble-sort">Bubble Sort</div>
-          <div class="algorithm-btn" id="insertion-sort">Insertion Sort</div>
-          <div class="algorithm-btn" id="merge-sort">Merge Sort</div>
-          <div class="algorithm-btn" id="quick-sort">Quick Sort</div>
+          <div class="algorithm-btn" id="bubble">Bubble Sort</div>
+          <div class="algorithm-btn" id="insertion">Insertion Sort</div>
+          <div class="algorithm-btn" id="merge">Merge Sort</div>
+          <div class="algorithm-btn" id="quick">Quick Sort</div>
         </div>
       </div>
       <div class="order-dropdown">
@@ -44,32 +44,31 @@
       <p id="element-slider">Elements: <span id="elements"></span></p>
     </div>
 
+    <div id="sketch-holder"></div>
+    <div class="slider-container">
+      <input
+        type="range"
+        min="0"
+        max="0"
+        value="0"
+        class="slider"
+        id="progress-bar"
+      />
+      <div class="progress-slider-note">
+        (slide progress bar to manually move through animation)
+      </div>
+    </div>
     <div class="algorithm-info">
       <div class="algorithm-about">
-        <h1>Bubble Sort</h1>
+        <h1 id="algorithm-title"></h1>
         <div class="algorithm-description">
           <dl>
             <dt>About:</dt>
-            <dd>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, id
-              molestiae sequi quas aspernatur doloribus consequuntur quaerat
-              temporibus tempora est quisquam quam odit praesentium. Numquam
-              totam officia porro possimus voluptatem?
-            </dd>
+            <dd id="algorithm-about"></dd>
+            <dt>Time Complexity Explanation:</dt>
+            <dd id="algorithm-time"></dd>
             <dt>Space Complexity Explanation:</dt>
-            <dd>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi,
-              autem dignissimos nobis aperiam maiores quas nisi illo, laudantium
-              quis, dolorem atque vel. Voluptatem repellat velit aut mollitia
-              voluptates eum suscipit?
-            </dd>
-            <dt>Space Complexity Explanation:</dt>
-            <dd>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
-              nostrum, magnam similique accusamus recusandae voluptates
-              dignissimos, placeat quam, perspiciatis facilis ratione
-              consectetur quae? Hic ipsam nihil voluptate qui porro assumenda!
-            </dd>
+            <dd id="algorithm-space"></dd>
           </dl>
         </div>
       </div>
@@ -84,25 +83,28 @@
               <div class="complexity-data-title">
                 average
               </div>
-              <div class="complexity-data-value" id="average-time-complexity">
-                O(n²)
-              </div>
+              <div
+                class="complexity-data-value"
+                id="average-time-complexity"
+              ></div>
             </div>
             <div class="complexity-best">
               <div class="complexity-data-title">
                 best
               </div>
-              <div class="complexity-data-value" id="best-time-complexity">
-                O(n)
-              </div>
+              <div
+                class="complexity-data-value"
+                id="best-time-complexity"
+              ></div>
             </div>
             <div class="complexity-worst">
               <div class="complexity-data-title">
                 worst
               </div>
-              <div class="complexity-data-value" id="worst-time-complexity">
-                O(n²)
-              </div>
+              <div
+                class="complexity-data-value"
+                id="worst-time-complexity"
+              ></div>
             </div>
           </div>
         </div>
@@ -115,26 +117,10 @@
               <div class="complexity-data-title">
                 average
               </div>
-              <div class="complexity-data-value" id="space-complexity">
-                O(n^2)
-              </div>
+              <div class="complexity-data-value" id="space-complexity"></div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div id="sketch-holder"></div>
-    <div class="slider-container">
-      <input
-        type="range"
-        min="0"
-        max="0"
-        value="0"
-        class="slider"
-        id="progress-bar"
-      />
-      <div class="progress-slider-note">
-        (slide progress bar to move through animation)
       </div>
     </div>
   </body>

@@ -2,6 +2,8 @@ import "./main.scss";
 
 import p5 from "p5";
 
+import algorithmData from "./algorithmData";
+
 import bubbleSort from "./algorithms/bubble";
 import insertionSort from "./algorithms/insertion";
 import mergeSort from "./algorithms/merge";
@@ -15,6 +17,7 @@ function sketch(p) {
     p.createCanvas(1000, 500).parent("sketch-holder");
     p.frameRate(60);
     createRandomArray(elementQtySlider.value);
+    updateAlgorithmInfo("bubble");
     p.noLoop();
   };
 
@@ -63,11 +66,11 @@ function drawGraph() {
           )})`
         );
         break;
-      case "MOVED":
+      case "SELECTED":
         p5Canvas.fill(255, 204, 0);
         break;
-      case "SELECTED":
-        p5Canvas.fill(255, 0, 0);
+      case "SWAPPED":
+        p5Canvas.fill(255, 102, 0);
         break;
       default:
         p5Canvas.fill(0, 0, 0);
@@ -97,22 +100,22 @@ function createRandomArray(length) {
   }
 }
 let state = [];
-let selectedSort = "bubble-sort";
+let selectedSort = "bubble";
 function startAnimation() {
   switch (selectedSort) {
-    case "bubble-sort":
+    case "bubble":
       state = bubbleSort(sortedElements);
       sorting = true;
       break;
-    case "merge-sort":
+    case "merge":
       state = mergeSort(sortedElements);
       sorting = true;
       break;
-    case "quick-sort":
+    case "quick":
       state = quickSort(sortedElements);
       sorting = true;
       break;
-    case "insertion-sort":
+    case "insertion":
       state = insertionSort(sortedElements);
       sorting = true;
       break;
@@ -209,8 +212,7 @@ document
   .addEventListener("click", (event) => {
     document.getElementById("selected-algorithm").innerHTML =
       event.target.innerText;
-    if (sorting) {
-    }
+    updateAlgorithmInfo(event.target.id);
     selectSortMethod(event.target.id);
   });
 
@@ -267,4 +269,23 @@ function preSort(sortAscending) {
       }
     }
   }
+}
+
+function updateAlgorithmInfo(algorithm) {
+  document.getElementById("algorithm-title").innerHTML =
+    algorithmData[algorithm].title;
+  document.getElementById("algorithm-about").innerHTML =
+    algorithmData[algorithm].about;
+  document.getElementById("algorithm-time").innerHTML =
+    algorithmData[algorithm].timeExplanation;
+  document.getElementById("algorithm-space").innerHTML =
+    algorithmData[algorithm].spaceExplanation;
+  document.getElementById("average-time-complexity").innerHTML =
+    algorithmData[algorithm].timeComplexity.average;
+  document.getElementById("best-time-complexity").innerHTML =
+    algorithmData[algorithm].timeComplexity.best;
+  document.getElementById("worst-time-complexity").innerHTML =
+    algorithmData[algorithm].timeComplexity.worst;
+  document.getElementById("space-complexity").innerHTML =
+    algorithmData[algorithm].spaceComplexity;
 }

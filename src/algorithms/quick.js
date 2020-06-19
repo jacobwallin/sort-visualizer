@@ -30,8 +30,8 @@ function partition(low, high, array) {
 
   let swapIndex = low;
   for (let i = low; i < high; i++) {
-    array[i].status = "MOVED";
-    array[swapIndex].status = "MOVED";
+    array[i].status = "SELECTED";
+    array[swapIndex].status = "SELECTED";
     snapshot(animationState, array);
     array[i].status = "UNSORTED";
     array[swapIndex].status = "UNSORTED";

@@ -24,13 +24,32 @@ body {
   text-align: center;
 }
 
+.space-time {
+  padding-top: 0px;
+}
+
 .algorithm-info {
-  width: 1000px;
+  width: 100%;
+  height: 350px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid black;
   padding-bottom: 15px;
+}
+
+#algorithm-title {
+  font-size: 1.8rem;
+}
+
+#algorithm-about,
+#algorithm-time,
+#algorithm-space {
+  font-size: 0.9rem;
+}
+
+.algorithm-description dt {
+  font-weight: bold;
+  font-size: 1.05rem;
 }
 
 .complexity-title {
@@ -62,8 +81,8 @@ body {
 
   @mixin complexity-constants {
     border-radius: 5px;
-    padding: 8px 25px;
-    width: 60px;
+    padding: 8px 5px;
+    width: 100px;
   }
 
   &-average {
@@ -88,7 +107,6 @@ body {
 }
 
 .slider {
-  height: 25px;
   width: 100%;
   background: #d3d3d3;
   outline: none;

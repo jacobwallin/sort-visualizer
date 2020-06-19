@@ -7,7 +7,7 @@ export default function insertionSort(array) {
   snapshot(animationState, array);
   for (let i = 1; i < array.length; i++) {
     let swapIndex = i;
-    array[i].status = "MOVED";
+    array[i].status = "SELECTED";
     snapshot(animationState, array);
     for (let j = i - 1; j >= 0; j--) {
       if (array[j].num > array[swapIndex].num) {
@@ -16,7 +16,7 @@ export default function insertionSort(array) {
         array[j] = temp;
 
         array[swapIndex].status = "UNSORTED";
-        array[j].status = "MOVED";
+        array[j].status = "SELECTED";
         swapIndex--;
         snapshot(animationState, array);
       } else {
