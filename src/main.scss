@@ -57,6 +57,10 @@ body {
   font-size: 1.2rem;
 }
 
+.complexity-data {
+  height: 60px;
+}
+
 .complexity {
   @include flex-col;
 
@@ -103,6 +107,7 @@ body {
   &-space {
     @include complexity-constants;
     background-color: $complexity-space-color;
+    padding-top: 15px;
   }
 }
 

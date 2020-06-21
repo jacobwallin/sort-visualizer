@@ -4,6 +4,7 @@ let animationState = [];
 
 export default function mergeSort(array) {
   animationState = [];
+  snapshot(animationState, array);
   mergeSortHelper(0, array.length - 1, array);
   return animationState;
 }
@@ -22,11 +23,12 @@ function merge(low, middle, high, array) {
   let rightIndex = middle;
 
   while (leftIndex <= rightIndex && rightIndex < high) {
-    array[leftIndex].status = "SELECTED";
-    array[rightIndex + 1].status = "SELECTED";
-    snapshot(animationState, array);
     if (array[leftIndex].num <= array[rightIndex + 1].num) {
       // left element is in correct spot
+
+      array[leftIndex].status = "NOSWAP";
+      array[rightIndex + 1].status = "SELECTED";
+      snapshot(animationState, array);
       array[rightIndex + 1].status = "UNSORTED";
       if (low === 0 && high === array.length - 1) {
         array[leftIndex].status = "SORTED";
@@ -36,8 +38,11 @@ function merge(low, middle, high, array) {
       leftIndex++;
     } else {
       // element in right index must be SELECTED to left index position, and all other elements inbetween shifted
-      array[rightIndex + 1].status = "UNSORTED";
+      array[leftIndex].status = "SELECTED";
+      array[rightIndex + 1].status = "NOSWAP";
+      snapshot(animationState, array);
       array[leftIndex].status = "UNSORTED";
+      array[rightIndex + 1].status = "UNSORTED";
 
       const temp = array[rightIndex + 1];
 

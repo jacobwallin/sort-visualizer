@@ -21,8 +21,10 @@ export default function insertionSort(array) {
         array[j] = temp;
         swapIndex--;
       } else {
+        array[j].status = "NOSWAP";
         snapshot(animationState, array);
         array[swapIndex].status = "UNSORTED";
+        array[j].status = "UNSORTED";
         break;
       }
     }
@@ -46,16 +48,20 @@ export default function insertionSort(array) {
       array[swapIndex].status = "SORTED";
       swapIndex--;
     } else {
+      array[j].status = "NOSWAP";
       snapshot(animationState, array);
       array[swapIndex].status = "UNSORTED";
+      array[j].status = "UNSORTED";
       break;
     }
   }
 
+  // mark remaining elements that did not need to be swapped as sorted
   for (let i = swapIndex; i >= 0; i--) {
     array[i].status = "SORTED";
   }
 
+  // final snapshot
   snapshot(animationState, array);
 
   return animationState;

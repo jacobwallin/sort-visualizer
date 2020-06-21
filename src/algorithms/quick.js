@@ -4,6 +4,7 @@ let animationState = [];
 
 export default function quickSort(array) {
   animationState = [];
+  snapshot(animationState, array);
   quickSortHelper(0, array.length - 1, array);
   return animationState;
 }
@@ -24,28 +25,54 @@ function partition(low, high, array) {
   let pivot = array[pivotIndex].num;
 
   // swap pivot with element in high index
+  array[high].status = "SWAPPED";
+  array[pivotIndex].status = "OTHER";
+  snapshot(animationState, array);
+  array[high].status = "UNSORTED";
+  array[pivotIndex].status = "UNSORTED";
   let temp = array[pivotIndex];
   array[pivotIndex] = array[high];
   array[high] = temp;
 
+  array[high].status = "OTHER";
+  snapshot(animationState, array);
+
   let swapIndex = low;
   for (let i = low; i < high; i++) {
-    array[i].status = "SELECTED";
     array[swapIndex].status = "SELECTED";
-    snapshot(animationState, array);
-    array[i].status = "UNSORTED";
-    array[swapIndex].status = "UNSORTED";
+
     if (array[i].num <= pivot) {
       if (i > swapIndex) {
+        array[i].status = "SWAPPED";
+        snapshot(animationState, array);
+        array[i].status = "UNSORTED";
+        array[swapIndex].status = "UNSORTED";
         let temp2 = array[i];
         array[i] = array[swapIndex];
         array[swapIndex] = temp2;
+      } else {
+        snapshot(animationState, array);
+        array[swapIndex].status = "UNSORTED";
       }
       swapIndex++;
+    } else {
+      if (i > swapIndex) {
+        array[i].status = "NOSWAP";
+        snapshot(animationState, array);
+        array[i].status = "UNSORTED";
+        array[swapIndex].status = "UNSORTED";
+      } else {
+        snapshot(animationState, array);
+        array[swapIndex].status = "UNSORTED";
+      }
     }
   }
 
   // swap pivot element into it's sorted position
+  array[swapIndex].status = "SWAPPED";
+  snapshot(animationState, array);
+  array[high].status = "UNSORTED";
+  array[swapIndex].status = "UNSORTED";
   let temp3 = array[high];
   array[high] = array[swapIndex];
   array[swapIndex] = temp3;

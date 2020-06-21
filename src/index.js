@@ -50,7 +50,7 @@ function drawGraph() {
             sortedElements[i].num,
             0,
             1,
-            0.25,
+            0.2,
             1
           )})`
         );
@@ -61,16 +61,22 @@ function drawGraph() {
             sortedElements[i].num,
             0,
             1,
-            0.35,
+            0.25,
             1
           )})`
         );
         break;
       case "SELECTED":
-        p5Canvas.fill(255, 204, 0);
+        p5Canvas.fill(255, 220, 0);
         break;
       case "SWAPPED":
-        p5Canvas.fill(255, 102, 0);
+        p5Canvas.fill(255, 153, 153);
+        break;
+      case "NOSWAP":
+        p5Canvas.fill(0, 153, 0);
+        break;
+      case "OTHER":
+        p5Canvas.fill(153, 51, 255);
         break;
       default:
         p5Canvas.fill(0, 0, 0);

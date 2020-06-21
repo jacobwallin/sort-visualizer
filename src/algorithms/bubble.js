@@ -24,8 +24,10 @@ export default function bubbleSort(array) {
       } else {
         // take a snapshot showing the selected element
         array[j].status = "SELECTED";
+        array[j + 1].status = "NOSWAP";
         snapshot(animationState, array);
         array[j].status = "UNSORTED";
+        array[j + 1].status = "UNSORTED";
       }
     }
     array[i].status = "SORTED";
