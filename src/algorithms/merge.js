@@ -26,7 +26,7 @@ function merge(low, middle, high, array) {
     if (array[leftIndex].num <= array[rightIndex + 1].num) {
       // left element is in correct spot
 
-      array[leftIndex].status = "NOSWAP";
+      array[leftIndex].status = "GOOD";
       array[rightIndex + 1].status = "SELECTED";
       snapshot(animationState, array);
       array[rightIndex + 1].status = "UNSORTED";
@@ -39,7 +39,7 @@ function merge(low, middle, high, array) {
     } else {
       // element in right index must be SELECTED to left index position, and all other elements inbetween shifted
       array[leftIndex].status = "SELECTED";
-      array[rightIndex + 1].status = "NOSWAP";
+      array[rightIndex + 1].status = "GOOD";
       snapshot(animationState, array);
       array[leftIndex].status = "UNSORTED";
       array[rightIndex + 1].status = "UNSORTED";

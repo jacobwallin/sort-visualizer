@@ -13,7 +13,7 @@ export default function bubbleSort(array) {
         didSwap = true;
         // take a snapshot showing the swap
         array[j].status = "SELECTED";
-        array[j + 1].status = "SWAPPED";
+        array[j + 1].status = "SWAP";
         snapshot(animationState, array);
         array[j].status = "UNSORTED";
         array[j + 1].status = "UNSORTED";
@@ -24,7 +24,7 @@ export default function bubbleSort(array) {
       } else {
         // take a snapshot showing the selected element
         array[j].status = "SELECTED";
-        array[j + 1].status = "NOSWAP";
+        array[j + 1].status = "GOOD";
         snapshot(animationState, array);
         array[j].status = "UNSORTED";
         array[j + 1].status = "UNSORTED";

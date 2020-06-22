@@ -25,7 +25,7 @@ function partition(low, high, array) {
   let pivot = array[pivotIndex].num;
 
   // swap pivot with element in high index
-  array[high].status = "SWAPPED";
+  array[high].status = "SWAP";
   array[pivotIndex].status = "OTHER";
   snapshot(animationState, array);
   array[high].status = "UNSORTED";
@@ -43,7 +43,7 @@ function partition(low, high, array) {
 
     if (array[i].num <= pivot) {
       if (i > swapIndex) {
-        array[i].status = "SWAPPED";
+        array[i].status = "SWAP";
         snapshot(animationState, array);
         array[i].status = "UNSORTED";
         array[swapIndex].status = "UNSORTED";
@@ -57,7 +57,7 @@ function partition(low, high, array) {
       swapIndex++;
     } else {
       if (i > swapIndex) {
-        array[i].status = "NOSWAP";
+        array[i].status = "GOOD";
         snapshot(animationState, array);
         array[i].status = "UNSORTED";
         array[swapIndex].status = "UNSORTED";
@@ -69,7 +69,7 @@ function partition(low, high, array) {
   }
 
   // swap pivot element into it's sorted position
-  array[swapIndex].status = "SWAPPED";
+  array[swapIndex].status = "SWAP";
   snapshot(animationState, array);
   array[high].status = "UNSORTED";
   array[swapIndex].status = "UNSORTED";

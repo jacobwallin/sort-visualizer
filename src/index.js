@@ -16,6 +16,8 @@ function sketch(p) {
   p.setup = function () {
     p.createCanvas(1000, 500).parent("sketch-holder");
     p.frameRate(60);
+    p.background(210, 210, 210);
+    drawLegend("bubble");
     createRandomArray(elementQtySlider.value);
     updateAlgorithmInfo("bubble");
     p.noLoop();
@@ -28,6 +30,55 @@ function sketch(p) {
   };
 }
 
+function drawLegend(algorithm) {
+  p5Canvas.noStroke();
+  p5Canvas.fill(210, 210, 210);
+  p5Canvas.rect(0, 0, p5Canvas.width, 40);
+
+  let xOffset = 20;
+
+  switch (algorithm) {
+    case "bubble":
+    case "insertion":
+      drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
+      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", "current item");
+      drawLegendItem(
+        xOffset + 255,
+        "rgb(255, 153, 153)",
+        "swapped with current"
+      );
+      drawLegendItem(xOffset + 470, "rgb(0, 153, 0)", "not swapped");
+      break;
+    case "merge":
+      drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
+      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", "not merged");
+      drawLegendItem(xOffset + 260, "rgb(0, 153, 0)", "merged item");
+      break;
+    case "quick":
+      drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
+      drawLegendItem(xOffset + 105, "rgb(153, 51, 255)", "pivot");
+      drawLegendItem(xOffset + 200, "rgb(255, 153, 153)", "swapped");
+      drawLegendItem(xOffset + 320, "rgb(0, 153, 0)", "not swapped");
+      drawLegendItem(
+        xOffset + 470,
+        "rgb(255, 220, 0)",
+        "pivot sorted position"
+      );
+      break;
+    default:
+      break;
+  }
+}
+
+function drawLegendItem(x, color, text) {
+  p5Canvas.noStroke();
+  p5Canvas.fill(color);
+  p5Canvas.rect(x, 10, 25, 25);
+  p5Canvas.fill("black");
+  p5Canvas.textSize(16);
+  p5Canvas.text(`${text}`, x + 35, 29);
+}
+
 function stepGraph() {
   if (state.length > 0 && slider.value < state.length) {
     sortedElements = state[slider.value];
@@ -37,12 +88,15 @@ function stepGraph() {
 
 const BAR_SPACING = 1;
 function drawGraph() {
-  p5Canvas.background(210, 210, 210);
+  p5Canvas.noStroke();
+  // clear chart area of canvas
+  p5Canvas.fill(210, 210, 210);
+  p5Canvas.rect(0, p5Canvas.height, p5Canvas.width, -p5Canvas.height + 40);
+
   let barWidth =
     (p5Canvas.width - (BAR_SPACING * sortedElements.length + BAR_SPACING)) /
     sortedElements.length;
   for (let i = 0; i < sortedElements.length; i++) {
-    p5Canvas.noStroke();
     switch (sortedElements[i].status) {
       case "UNSORTED":
         p5Canvas.fill(
@@ -69,10 +123,10 @@ function drawGraph() {
       case "SELECTED":
         p5Canvas.fill(255, 220, 0);
         break;
-      case "SWAPPED":
+      case "SWAP":
         p5Canvas.fill(255, 153, 153);
         break;
-      case "NOSWAP":
+      case "GOOD":
         p5Canvas.fill(0, 153, 0);
         break;
       case "OTHER":
@@ -86,7 +140,7 @@ function drawGraph() {
       BAR_SPACING + BAR_SPACING * i + barWidth * i,
       p5Canvas.height,
       barWidth,
-      -p5Canvas.height * sortedElements[i].num
+      (-p5Canvas.height + 40) * sortedElements[i].num
     );
   }
 }
@@ -246,6 +300,7 @@ document
 
 function selectSortMethod(method) {
   selectedSort = method;
+  drawLegend(method);
   if (sorting) {
     state = [];
     slider.value = 0;

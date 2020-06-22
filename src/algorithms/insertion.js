@@ -11,7 +11,7 @@ export default function insertionSort(array) {
       array[swapIndex].status = "SELECTED";
       if (array[j].num > array[swapIndex].num) {
         // take snapshot showing swap
-        array[j].status = "SWAPPED";
+        array[j].status = "SWAP";
         snapshot(animationState, array);
         array[swapIndex].status = "UNSORTED";
         array[j].status = "UNSORTED";
@@ -21,7 +21,7 @@ export default function insertionSort(array) {
         array[j] = temp;
         swapIndex--;
       } else {
-        array[j].status = "NOSWAP";
+        array[j].status = "GOOD";
         snapshot(animationState, array);
         array[swapIndex].status = "UNSORTED";
         array[j].status = "UNSORTED";
@@ -37,7 +37,7 @@ export default function insertionSort(array) {
     array[swapIndex].status = "SELECTED";
     if (array[j].num > array[swapIndex].num) {
       // take snapshot showing swap
-      array[j].status = "SWAPPED";
+      array[j].status = "SWAP";
       snapshot(animationState, array);
       array[swapIndex].status = "UNSORTED";
       array[j].status = "UNSORTED";
@@ -48,7 +48,7 @@ export default function insertionSort(array) {
       array[swapIndex].status = "SORTED";
       swapIndex--;
     } else {
-      array[j].status = "NOSWAP";
+      array[j].status = "GOOD";
       snapshot(animationState, array);
       array[swapIndex].status = "UNSORTED";
       array[j].status = "UNSORTED";
