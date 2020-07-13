@@ -153,9 +153,9 @@ function createRandomArray(length) {
     sortedElements.push({ num: Math.random(), status: "UNSORTED" });
   }
 
-  if (elementOrder === "pre-sorted-asc") {
+  if (elementOrder === "ascending") {
     preSort(true);
-  } else if (elementOrder === "pre-sorted-desc") {
+  } else if (elementOrder === "descending") {
     preSort(false);
   }
 }
@@ -268,7 +268,7 @@ document.getElementById("step-forward-button").addEventListener("click", () => {
 });
 
 document
-  .getElementsByClassName("dropdown-content")[0]
+  .getElementsByClassName("algorithm-dropdown")[0]
   .addEventListener("click", (event) => {
     document.getElementById("selected-algorithm").innerHTML =
       event.target.innerText;
@@ -278,7 +278,7 @@ document
 
 let elementOrder = "random-order";
 document
-  .getElementsByClassName("order-dropdown-content")[0]
+  .getElementsByClassName("order-dropdown")[0]
   .addEventListener("click", (event) => {
     if (elementOrder !== event.target.id) {
       elementOrder = event.target.id;
