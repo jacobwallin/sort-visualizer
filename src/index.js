@@ -8,6 +8,7 @@ import bubbleSort from "./algorithms/bubble";
 import insertionSort from "./algorithms/insertion";
 import mergeSort from "./algorithms/merge";
 import quickSort from "./algorithms/quick";
+import heapSort from "./algorithms/heap";
 
 let p5Canvas = new p5(sketch);
 
@@ -177,6 +178,10 @@ function startAnimation() {
       break;
     case "insertion":
       state = insertionSort(sortedElements);
+      sorting = true;
+      break;
+    case "heap":
+      state = heapSort(sortedElements);
       sorting = true;
       break;
     default:
