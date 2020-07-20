@@ -50,10 +50,11 @@ function drawLegend(algorithm) {
       );
       drawLegendItem(xOffset + 470, "rgb(0, 153, 0)", "not swapped");
       break;
+    case "heap":
     case "merge":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
-      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", "not merged");
-      drawLegendItem(xOffset + 260, "rgb(0, 153, 0)", "merged item");
+      drawLegendItem(xOffset + 110, "rgb(255, 153, 153)", "swapped");
+      drawLegendItem(xOffset + 240, "rgb(0, 153, 0)", "not swapped");
       break;
     case "quick":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");

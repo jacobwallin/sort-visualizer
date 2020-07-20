@@ -27,7 +27,7 @@ function merge(low, middle, high, array) {
       // left element is in correct spot
 
       array[leftIndex].status = "GOOD";
-      array[rightIndex + 1].status = "SELECTED";
+      array[rightIndex + 1].status = "GOOD";
       snapshot(animationState, array);
       array[rightIndex + 1].status = "UNSORTED";
       if (low === 0 && high === array.length - 1) {
@@ -37,9 +37,8 @@ function merge(low, middle, high, array) {
       }
       leftIndex++;
     } else {
-      // element in right index must be SELECTED to left index position, and all other elements inbetween shifted
-      array[leftIndex].status = "SELECTED";
-      array[rightIndex + 1].status = "GOOD";
+      array[leftIndex].status = "SWAP";
+      array[rightIndex + 1].status = "SWAP";
       snapshot(animationState, array);
       array[leftIndex].status = "UNSORTED";
       array[rightIndex + 1].status = "UNSORTED";
@@ -47,7 +46,7 @@ function merge(low, middle, high, array) {
       const temp = array[rightIndex + 1];
 
       // shift all elements between the left and right index
-      // this is for visualization purposes only, to prevent duplicate values from being displayed simultaniously
+      // this is for visualization purposes only, to prevent duplicate values from being displayed simultaniously on canvas
       for (let i = 0; i < rightIndex + 1 - leftIndex; i++) {
         array[rightIndex + 1 - i] = array[rightIndex - i];
       }
