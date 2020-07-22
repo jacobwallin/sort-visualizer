@@ -40,15 +40,24 @@ function drawLegend(algorithm) {
 
   switch (algorithm) {
     case "bubble":
+      drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
+      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", '"bubble" element');
+      drawLegendItem(xOffset + 300, "rgb(255, 153, 153)", "swapped");
+      drawLegendItem(xOffset + 430, "rgb(0, 153, 0)", "not swapped");
+      break;
     case "insertion":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
-      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", "current item");
+      drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", '"inserted" element');
       drawLegendItem(
-        xOffset + 255,
+        xOffset + 310,
         "rgb(255, 153, 153)",
-        "swapped with current"
+        "< than inserted element"
       );
-      drawLegendItem(xOffset + 470, "rgb(0, 153, 0)", "not swapped");
+      drawLegendItem(
+        xOffset + 540,
+        "rgb(0, 153, 0)",
+        "> than inserted element"
+      );
       break;
     case "heap":
     case "merge":
@@ -355,4 +364,11 @@ function updateAlgorithmInfo(algorithm) {
     algorithmData[algorithm].timeComplexity.worst;
   document.getElementById("space-complexity").innerHTML =
     algorithmData[algorithm].spaceComplexity;
+  document.getElementById("stability").innerHTML =
+    algorithmData[algorithm].stability;
+  document.getElementsByClassName("stability")[0].classList.remove("Stable");
+  document.getElementsByClassName("stability")[0].classList.remove("Unstable");
+  document
+    .getElementsByClassName("stability")[0]
+    .classList.add(algorithmData[algorithm].stability);
 }

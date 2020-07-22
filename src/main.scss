@@ -4,6 +4,8 @@ $complexity-ave-color: rgb(51, 153, 255);
 $complexity-best-color: rgb(51, 204, 51);
 $complexity-worst-color: rgb(255, 102, 102);
 $complexity-space-color: rgb(160, 160, 160);
+$stable-color: rgb(51, 204, 51);
+$unstable-color: rgb(255, 220, 0);
 
 body {
   background-color: lightgray;
@@ -57,13 +59,10 @@ body {
   font-size: 1.05rem;
 }
 
-.complexity-title {
-  padding: 20px 0 10px 0;
-  font-size: 1.2rem;
-}
-
-.complexity-data {
-  height: 60px;
+@mixin complexity-constants {
+  border-radius: 5px;
+  padding: 8px 5px;
+  width: 100px;
 }
 
 .complexity {
@@ -71,10 +70,13 @@ body {
 
   &-title {
     font-weight: bold;
+    padding: 20px 0 10px 0;
+    font-size: 1.2rem;
   }
 
   &-data {
     @include flex-row;
+    height: 60px;
   }
 
   &-data-title {
@@ -86,12 +88,6 @@ body {
   &-data-value {
     font-weight: bold;
     padding-top: 5px;
-  }
-
-  @mixin complexity-constants {
-    border-radius: 5px;
-    padding: 8px 5px;
-    width: 100px;
   }
 
   &-average {
@@ -135,4 +131,17 @@ body {
 
 .algorithm-about {
   margin: 0px 10px 0px 15px;
+}
+
+.stability {
+  @include complexity-constants;
+  padding-top: 15px;
+}
+
+.Stable {
+  background-color: $stable-color;
+}
+
+.Unstable {
+  background-color: $unstable-color;
 }
