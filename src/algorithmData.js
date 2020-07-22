@@ -4,7 +4,7 @@ export default {
     about:
       'Bubble sort works by looping through the list once per item, each time comparing adjacent items and swapping them if they are out of order. This results in the largest unsorted item ”bubbling" to the end of the list into its final sorted position after each pass.',
     timeExplanation:
-      "Bubble sort has an average time complexity of O(n²) as the algorithm loops through the list once per element. If any single loop completes without any swaps being made, the list is sorted and bubble sort does not make any further comparisons. This means that if bubble sort is given a pre-sorted list it will only make one pass, resulting in a best case time complexity of O(n). The worst case time complexity would be a list that is in reverse order as it will require the maximum number of swaps.",
+      "Bubble sort has an average time complexity of O(n²) as the algorithm loops through the unsorted elements in the list once per element. If any single loop completes without any swaps being made, the list is sorted and bubble sort will not make any further comparisons. This means that if bubble sort is given a pre-sorted list it will only loop through the items once, resulting in a best case time complexity of O(n). The worst case time complexity would be a list that is in reverse order as it will require the maximum number of swaps and comparisons.",
     spaceExplanation:
       "Bubble sort has an O(1) space complexity as the only space required is a single temporary value used to swap items in the list.",
     timeComplexity: {
@@ -18,11 +18,11 @@ export default {
   insertion: {
     title: "Insertion Sort",
     about:
-      "Insertion sort works by first comparing the first two items in the list and swapping them if they are out of order. These two items form a sorted subset of the complete list. Insertion sort then continues iterating through the list, “inserting” each item one at a time into its correct position within the sorted subset of items. ",
+      "Insertion sort works by inserting each element one at a time into a sorted subset of items within the entire list. It iterates through the sorted subset once per element, each time comparing the item to be inserted against the elements in the subset until it finds the correct sorted position. Once the insertion position is found, the sorted subset is shifted to make room and the element is swapped into the subset.",
     timeExplanation:
-      "In the average case, insertion sort will run in O(n²) time as for each item in the list, it loops through the sorted subset of items to find the correct position. The best case time is O(n) and will only occur if the list of items is already pre-sorted since no swaps would be required and only a single comparison per item. The worst case time occurs with a list in reverse order as each item will have to be swapped the maximum number of times.",
+      "In the average case, insertion sort will run in O(n²) time as for each element in the list, it loops through the sorted subset of elements to find the correct position. The best case time is O(n) and will only occur if the list is already pre-sorted since no swaps would be required and only a single comparison per item. The worst case time occurs when the list to be sorted is in reverse order as this will cause the maximum number of comparisons to be made.",
     spaceExplanation:
-      "Insertion sort has an O(1) space complexity as the only space required is a single temporary value used to swap items in the list.",
+      "Insertion sort has an O(1) space complexity as the only space required is a temporary value used to swap items in the list.",
     timeComplexity: {
       average: "O(n²)",
       best: "O(n)",
@@ -34,7 +34,7 @@ export default {
   merge: {
     title: "Merge Sort",
     about:
-      "Merge sort works by dividing the list of items into subsets until each subset consists of only a single item. The subsets are then repeatedly merged together into sorted subsets until only two remain, and then they are merged one last time to create the final sorted list. Merge sort does not swap items within the list in the same way as other algorithms, but rather creates a complete copy of the subsets being merged, and then uses that copy to replace the items in the list in the correct order.",
+      "Merge sort works by dividing the list of items into subsets until each subset consists of only a single element. The subsets are then repeatedly merged together two at a time, each time combining the two subsets into a single sorted subset of items. Once only two sorted subsets remain, they are merged to create the final sorted list of items. Merge sort does not sort in place, but rather creates a complete copy of the two subsets at each merge, and then uses that copy to build the new sorted subset of elements.",
     timeExplanation:
       "Merge sort has a O(n log n) time complexity for the average, best, and worst cases.  Although the overall complexity will not change, merge sort will run faster or slower overall depending on how many comparisons it has to make during each merge. The best case would be an already sorted list of items where each merge step only has to make n/2 comparisons. In the worst case, each merge step will have to compare every item. This happens when the two subsets being merged have the elements sorted in alternating order between each subset (e.g. [0,2,4,6] and [1,3,5,7]).",
     spaceExplanation:
@@ -65,9 +65,12 @@ export default {
   },
   heap: {
     title: "Heap Sort",
-    about: "",
-    timeExplanation: "",
-    spaceExplanation: "",
+    about:
+      "Heap sort works by first ordering the elements in the list to form a max heap data structure. Second, the list is sorted by repeatedly removing the root element in the heap, and then adjusting the remaining elements to re-form a valid max heap. Since the root element of the max heap will always be the largest element in the list, the elements are removed in sorted order.",
+    timeExplanation:
+      "Heap sort has a best, average, and worst case of O(n log n). The heapify method used to form the max-heap in the first step of the algorithm has been proven to have an average time complexity of O(n). In the second step of the algorithm, the time complexity to remove a single element and then re-structure the max heap is O(log n). This means the total time to remove all the elements from the max heap is O(n log n),  resulting in an overall time complexity of O(n + (n log n)) for both steps in the algorithm, which can be simplified to O(n log n).",
+    spaceExplanation:
+      "Heap sort has a space complexity of O(1) as the list is sorted in place and the only extra space required is a single temporary value used for swapping elements within the list.",
     timeComplexity: {
       average: "O(n log n)",
       best: "O(n log n)",
