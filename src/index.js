@@ -220,6 +220,12 @@ elementQty.innerHTML = elementQtySlider.value;
 elementQtySlider.oninput = function () {
   // pause p5 draw loop
   p5Canvas.noLoop();
+
+  let frameRate =
+    this.value > 75 ? 60 : p5Canvas.map(this.value, 10, 75, 5, 60);
+
+  p5Canvas.frameRate(frameRate);
+
   // reset state array and slider
   if (state.length > 0) {
     state = [];
