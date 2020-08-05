@@ -44,6 +44,7 @@ function sketch(p) {
     } else {
       p.resizeCanvas(window.outerWidth, (window.outerHeight * 2) / 3.5);
     }
+    drawLegend(selectedSort);
   };
 }
 
@@ -98,12 +99,20 @@ function drawLegend(algorithm) {
 }
 
 function drawLegendItem(x, color, text) {
+  let scaleFactor =
+    window.outerWidth < 666 ? (window.outerWidth / 1000) * 1.5 : 1;
+
+  let adjustedX = x * scaleFactor;
+  let rectWidth = 25 * scaleFactor;
+  let textSize = 16 * scaleFactor;
+  let textOffset = 35 * scaleFactor;
+
   p5Canvas.noStroke();
   p5Canvas.fill(color);
-  p5Canvas.rect(x, 10, 25, 25);
+  p5Canvas.rect(adjustedX, 10, rectWidth, rectWidth);
   p5Canvas.fill("black");
-  p5Canvas.textSize(16);
-  p5Canvas.text(`${text}`, x + 35, 29);
+  p5Canvas.textSize(textSize);
+  p5Canvas.text(`${text}`, adjustedX + textOffset, 10 + rectWidth / 1.5);
 }
 
 function stepGraph() {
