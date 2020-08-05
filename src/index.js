@@ -10,6 +10,7 @@ import mergeSort from "./algorithms/merge";
 import quickSort from "./algorithms/quick";
 import heapSort from "./algorithms/heap";
 import combSort from "./algorithms/comb";
+import cocktailShakerSort from "./algorithms/cocktail";
 
 let p5Canvas = new p5(sketch);
 
@@ -57,6 +58,7 @@ function drawLegend(algorithm) {
   let xOffset = 20;
 
   switch (algorithm) {
+    case "cocktail":
     case "bubble":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
       drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", '"bubble" element');
@@ -223,6 +225,10 @@ function startAnimation() {
       break;
     case "comb":
       state = combSort(sortedElements);
+      sorting = true;
+      break;
+    case "cocktail":
+      state = cocktailShakerSort(sortedElements);
       sorting = true;
       break;
     default:

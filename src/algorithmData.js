@@ -15,6 +15,19 @@ export default {
     spaceComplexity: "O(1)",
     stability: "Stable",
   },
+  cocktail: {
+    title: "Cocktail Shaker Sort",
+    about: "",
+    timeExplanation: "",
+    spaceExplanation: "",
+    timeComplexity: {
+      average: "O(n²)",
+      best: "O(n)",
+      worst: "O(n²)",
+    },
+    spaceComplexity: "O(1)",
+    stability: "Stable",
+  },
   insertion: {
     title: "Insertion Sort",
     about:
