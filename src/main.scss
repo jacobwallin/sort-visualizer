@@ -156,6 +156,7 @@ body {
   background-color: $unstable-color;
 }
 
+// formats algorithm info section for larger screen sizes
 @media only screen and (min-width: 700px) {
   .algorithm-info {
     flex-direction: row;

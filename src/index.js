@@ -15,13 +15,13 @@ let p5Canvas = new p5(sketch);
 function sketch(p) {
   // p5 setup function
   p.setup = function () {
-    if (p.windowWidth > 1000) {
+    if (window.outerWidth > 1000) {
       p.createCanvas(1000, 500).parent("sketch-holder");
     } else {
-      p.createCanvas(
-        p.windowWidth,
-        p.windowWidth / p.map(p.windowWidth, 300, 1000, 1, 2)
-      ).parent("sketch-holder");
+      // the aspect ratio of the canvas is adjusted for smaller screen sizes to
+      p.createCanvas(window.outerWidth, (window.outerHeight * 2) / 3.5).parent(
+        "sketch-holder"
+      );
     }
 
     p.frameRate(60);
@@ -39,13 +39,10 @@ function sketch(p) {
   };
 
   p.windowResized = function () {
-    if (p.windowWidth > 1000) {
+    if (window.outerWidth > 1000) {
       p.resizeCanvas(1000, 500);
     } else {
-      p.resizeCanvas(
-        p.windowWidth,
-        p.windowWidth / p.map(p.windowWidth, 300, 1000, 1, 2)
-      );
+      p.resizeCanvas(window.outerWidth, (window.outerHeight * 2) / 3.5);
     }
   };
 }
