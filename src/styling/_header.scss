@@ -1,13 +1,36 @@
 #qty-slider {
-  width: 200px;
+  width: 100%;
 }
 
 #element-slider {
-  min-width: 110px;
+  margin: 0 5px;
+  white-space: nowrap;
+}
+
+#qty-slider {
+  max-width: 300px;
+  margin: 10px 5px;
 }
 
 .vl {
   border-left: 5px solid black;
   height: 40px;
   border-radius: 5px;
+}
+
+.dropdown {
+  margin: 5px 5px;
+}
+
+#step-backward-button,
+#step-forward-button,
+#start-button {
+  white-space: nowrap;
+  margin: 5px 5px;
+  // prevent double tap to zoom on mobile devices
+  touch-action: manipulation;
+}
+
+.animation-controls {
+  display: flex;
 }

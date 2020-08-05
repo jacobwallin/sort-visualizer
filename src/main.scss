@@ -6,22 +6,28 @@ $complexity-worst-color: rgb(255, 102, 102);
 $complexity-space-color: rgb(160, 160, 160);
 $stable-color: rgb(51, 204, 51);
 $unstable-color: rgb(255, 220, 0);
+$width: 1000px;
 
 body {
   background-color: lightgray;
   font-family: sans-serif;
-  width: 1000px;
+}
+
+#sketch-holder {
+  display: flex;
+  justify-content: center;
 }
 
 .navbar {
   border-radius: 5px;
-  margin: 5px;
+  margin: 5px auto 5px auto;
+  max-width: $width;
 }
 
 @mixin flex-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 @mixin flex-col {
@@ -36,10 +42,11 @@ body {
 }
 
 .algorithm-info {
-  width: 100%;
+  max-width: $width;
+  margin: auto;
   height: 350px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding-bottom: 15px;
 }
@@ -123,10 +130,13 @@ body {
 
 .slider-container {
   text-align: center;
+  max-width: $width;
+  margin: auto;
 }
 
 .progress-slider-note {
   font-size: 0.8rem;
+  margin: 0 0 10px 0;
 }
 
 .algorithm-about {
@@ -144,4 +154,10 @@ body {
 
 .Unstable {
   background-color: $unstable-color;
+}
+
+@media only screen and (min-width: 700px) {
+  .algorithm-info {
+    flex-direction: row;
+  }
 }

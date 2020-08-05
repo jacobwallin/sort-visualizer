@@ -15,7 +15,15 @@ let p5Canvas = new p5(sketch);
 function sketch(p) {
   // p5 setup function
   p.setup = function () {
-    p.createCanvas(1000, 500).parent("sketch-holder");
+    if (p.windowWidth > 1000) {
+      p.createCanvas(1000, 500).parent("sketch-holder");
+    } else {
+      p.createCanvas(
+        p.windowWidth,
+        p.windowWidth / p.map(p.windowWidth, 300, 1000, 1, 2)
+      ).parent("sketch-holder");
+    }
+
     p.frameRate(60);
     p.background(210, 210, 210);
     drawLegend("bubble");
@@ -28,6 +36,17 @@ function sketch(p) {
   p.draw = function () {
     stepGraph();
     drawGraph();
+  };
+
+  p.windowResized = function () {
+    if (p.windowWidth > 1000) {
+      p.resizeCanvas(1000, 500);
+    } else {
+      p.resizeCanvas(
+        p.windowWidth,
+        p.windowWidth / p.map(p.windowWidth, 300, 1000, 1, 2)
+      );
+    }
   };
 }
 
