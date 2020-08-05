@@ -31,6 +31,19 @@ export default {
     spaceComplexity: "O(1)",
     stability: "Stable",
   },
+  comb: {
+    title: "Comb Sort",
+    about: "",
+    timeExplanation: "",
+    spaceExplanation: "",
+    timeComplexity: {
+      average: "O(n²)",
+      best: "O(n log n)",
+      worst: "O(n²)",
+    },
+    spaceComplexity: "O(1)",
+    stability: "Unstable",
+  },
   merge: {
     title: "Merge Sort",
     about:

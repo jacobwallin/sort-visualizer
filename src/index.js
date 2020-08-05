@@ -9,6 +9,7 @@ import insertionSort from "./algorithms/insertion";
 import mergeSort from "./algorithms/merge";
 import quickSort from "./algorithms/quick";
 import heapSort from "./algorithms/heap";
+import combSort from "./algorithms/comb";
 
 let p5Canvas = new p5(sketch);
 
@@ -78,6 +79,7 @@ function drawLegend(algorithm) {
       break;
     case "heap":
     case "merge":
+    case "comb":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
       drawLegendItem(xOffset + 110, "rgb(255, 153, 153)", "swapped");
       drawLegendItem(xOffset + 240, "rgb(0, 153, 0)", "not swapped");
@@ -217,6 +219,10 @@ function startAnimation() {
       break;
     case "heap":
       state = heapSort(sortedElements);
+      sorting = true;
+      break;
+    case "comb":
+      state = combSort(sortedElements);
       sorting = true;
       break;
     default:
