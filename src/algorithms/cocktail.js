@@ -5,7 +5,7 @@ let animationState = [];
 export default function cocktailShakerSort(array) {
   animationState = [];
   snapshot(animationState, array);
-  // debugger;
+
   let swapped = true;
   let loopCounter = 0;
   while (swapped) {

@@ -11,6 +11,7 @@ import quickSort from "./algorithms/quick";
 import heapSort from "./algorithms/heap";
 import combSort from "./algorithms/comb";
 import cocktailShakerSort from "./algorithms/cocktail";
+import cycleSort from "./algorithms/cycle";
 
 let p5Canvas = new p5(sketch);
 
@@ -82,6 +83,7 @@ function drawLegend(algorithm) {
     case "heap":
     case "merge":
     case "comb":
+    case "cycle":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
       drawLegendItem(xOffset + 110, "rgb(255, 153, 153)", "swapped");
       drawLegendItem(xOffset + 240, "rgb(0, 153, 0)", "not swapped");
@@ -231,9 +233,15 @@ function startAnimation() {
       state = cocktailShakerSort(sortedElements);
       sorting = true;
       break;
+    case "cycle":
+      state = cycleSort(sortedElements);
+      sorting = true;
+      break;
     default:
       return;
   }
+
+  console.log(state);
 
   slider.max = state.length - 1;
   p5Canvas.loop();

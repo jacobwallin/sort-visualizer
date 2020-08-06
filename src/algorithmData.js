@@ -28,6 +28,19 @@ export default {
     spaceComplexity: "O(1)",
     stability: "Stable",
   },
+  cycle: {
+    title: "Cycle Sort",
+    about: "",
+    timeExplanation: "",
+    spaceExplanation: "",
+    timeComplexity: {
+      average: "O(n²)",
+      best: "O(n²)",
+      worst: "O(n²)",
+    },
+    spaceComplexity: "O(1)",
+    stability: "Unstable",
+  },
   insertion: {
     title: "Insertion Sort",
     about:
