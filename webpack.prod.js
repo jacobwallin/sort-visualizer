@@ -11,7 +11,9 @@ module.exports = merge(common, {
   mode: "production",
   plugins: [
     // automatically deletes old hashed bundle files
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ["main*"],
+    }),
     // creates index.html file from template
     // automatically adds script tag with hashed js bundle file
     new MiniCssExtractPlugin({

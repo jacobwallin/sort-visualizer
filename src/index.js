@@ -1,7 +1,6 @@
 import "./main.scss";
 
 import p5 from "p5";
-
 import algorithmData from "./algorithmData";
 
 import bubbleSort from "./algorithms/bubble";
@@ -69,21 +68,19 @@ function drawLegend(algorithm) {
     case "insertion":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
       drawLegendItem(xOffset + 110, "rgb(255, 220, 0)", '"inserted" element');
-      drawLegendItem(
-        xOffset + 310,
-        "rgb(255, 153, 153)",
-        "< than inserted element"
-      );
-      drawLegendItem(
-        xOffset + 540,
-        "rgb(0, 153, 0)",
-        "> than inserted element"
-      );
+      drawLegendItem(xOffset + 310, "rgb(255, 153, 153)", "< inserted");
+      drawLegendItem(xOffset + 445, "rgb(0, 153, 0)", "> inserted");
+      break;
+    case "cycle":
+      drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
+      drawLegendItem(xOffset + 95, "rgb(153, 51, 255)", "current element");
+      drawLegendItem(xOffset + 260, "rgb(255, 220, 0)", "< current");
+      drawLegendItem(xOffset + 380, "rgb(0, 153, 0)", "> current");
+      drawLegendItem(xOffset + 500, "rgb(255, 153, 153)", "swapped");
       break;
     case "heap":
     case "merge":
     case "comb":
-    case "cycle":
       drawLegendItem(xOffset, "rgb(0, 102, 255)", "sorted");
       drawLegendItem(xOffset + 110, "rgb(255, 153, 153)", "swapped");
       drawLegendItem(xOffset + 240, "rgb(0, 153, 0)", "not swapped");
@@ -269,7 +266,7 @@ elementQtySlider.oninput = function () {
   let frameRate =
     this.value > 75 ? 60 : p5Canvas.map(this.value, 10, 75, 5, 60);
 
-  p5Canvas.frameRate(frameRate);
+  // p5Canvas.frameRate(frameRate);
 
   // reset state array and slider
   if (state.length > 0) {

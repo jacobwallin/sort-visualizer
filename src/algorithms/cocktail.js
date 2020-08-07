@@ -14,7 +14,7 @@ export default function cocktailShakerSort(array) {
     for (let i = 1 + loopCounter; i < array.length - loopCounter; i++) {
       if (array[i].num < array[i - 1].num) {
         array[i].status = "SWAP";
-        array[i - 1].status = "SWAP";
+        array[i - 1].status = "SELECTED";
         snapshot(animationState, array);
         array[i].status = "UNSORTED";
         array[i - 1].status = "UNSORTED";
@@ -27,7 +27,7 @@ export default function cocktailShakerSort(array) {
         array[i - 1] = temp;
       } else {
         array[i].status = "GOOD";
-        array[i - 1].status = "GOOD";
+        array[i - 1].status = "SELECTED";
         snapshot(animationState, array);
         array[i].status = "UNSORTED";
         array[i - 1].status = "UNSORTED";
@@ -40,7 +40,7 @@ export default function cocktailShakerSort(array) {
     if (swapped) {
       for (let i = array.length - 2 - loopCounter; i > loopCounter; i--) {
         if (array[i].num < array[i - 1].num) {
-          array[i].status = "SWAP";
+          array[i].status = "SELECTED";
           array[i - 1].status = "SWAP";
           snapshot(animationState, array);
           array[i].status = "UNSORTED";
@@ -53,7 +53,7 @@ export default function cocktailShakerSort(array) {
           array[i] = array[i - 1];
           array[i - 1] = temp;
         } else {
-          array[i].status = "GOOD";
+          array[i].status = "SELECTED";
           array[i - 1].status = "GOOD";
           snapshot(animationState, array);
           array[i].status = "UNSORTED";

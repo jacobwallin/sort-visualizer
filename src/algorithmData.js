@@ -17,9 +17,12 @@ export default {
   },
   cocktail: {
     title: "Cocktail Shaker Sort",
-    about: "",
-    timeExplanation: "",
-    spaceExplanation: "",
+    about:
+      "Cocktail shaker sort works identical to bubble sort, but instead of finding the largest unsorted element at each iteration through the list, it works in both directions by alternating between “bubbling” the largest item to the end and the smallest item to the beginning of the unsorted list. This improvement helps better deal with smaller elements sometimes called “turtles” that initially start towards the end of the list before sorting. These elements can slow down bubble sort since they can only move one spot towards their sorted position per iteration through the list and can cause many more loops through the list to be necessary.",
+    timeExplanation:
+      "Cocktail shaker sort has an average and worst case time complexity of O(n²) as it loops through the list once per element. In the best case, if the list is already sorted only one pass is necessary as just like bubble sort it will detect the list is sorted if no swaps were necessary during any single iteration. ",
+    spaceExplanation:
+      "Cocktail shaker sort has an O(1) space complexity as the only space required is a single temporary value used to swap items in the list.",
     timeComplexity: {
       average: "O(n²)",
       best: "O(n)",
@@ -30,9 +33,12 @@ export default {
   },
   cycle: {
     title: "Cycle Sort",
-    about: "",
-    timeExplanation: "",
-    spaceExplanation: "",
+    about:
+      'Cycle Sort works by completing a sorting "cycle" once for each element in the list. The first cycle begins by comparing the first element in the list with each other element and counting how many are smaller than it. This finds the first element’s final sorted position within the list and if it is not already in the correct position it will be swapped into place. If a swap was made, the cycle continues by repeating this same process on the element that was originally in the position the first element was swapped into. The total amount of smaller items are counted, and it is swapped into its correct position. The cycle continues until the the element that belongs in the original position the cycle began from is found, which in the case of the first cycle is the smallest element. Once the first cycle is complete, a cycle will be performed on each remaining element regardless of if it was already moved to its sorted position in a previous cycle. The benefit of cycle sort is that it performs the minimum number of writes to disk possible, which can be useful when dealing with storage that has a limited lifespan such as flash memory.',
+    timeExplanation:
+      "Cycle sort has a best, average, and worst case time complexity of O(n²). Although it will not change the overall complexity, an already sorted array will result in the minimal amount of comparisons and swaps as each cycle will only loop through the list once and will not have to move any elements. In the worst case, no elements would initially be in their final sorted position causing n number of swaps and the maximum number of comparisons. ",
+    spaceExplanation:
+      "Cycle sort has an O(1) space complexity as the only space required is a single temporary value used to swap items in the list.",
     timeComplexity: {
       average: "O(n²)",
       best: "O(n²)",
@@ -59,9 +65,12 @@ export default {
   },
   comb: {
     title: "Comb Sort",
-    about: "",
-    timeExplanation: "",
-    spaceExplanation: "",
+    about:
+      "Comb sort works similar to bubble sort by iterating through the list comparing two items at a time and swapping them if they are out of order. While bubble sort always compares adjacent elements, comb sort starts with a much larger gap between the elements being compared. The gap is determined by a “shrink factor” which is typically 1.3. The initial gap is determined by dividing the total number of elements being sorted by the shrink factor (n / 1.3). Before each following iteration, the gap is divided by the shrink factor until it reaches 1. Once the gap reaches 1, comb sort continues to iterate through the list with a gap of 1 and swap elements until sorting is complete.",
+    timeExplanation:
+      "Comb sort has a best case time complexity of O(n log n). This occurs with an already sorted list as once the gap reaches 1, only a single pass is required. The average and worst case are O(n²).",
+    spaceExplanation:
+      "Insertion sort has an O(1) space complexity as the only space required is a temporary value used to swap items in the list.",
     timeComplexity: {
       average: "O(n²)",
       best: "O(n log n)",
